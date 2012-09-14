@@ -1,6 +1,6 @@
 /* Open in tabs */
 
-if (!faextender) { faextender = {}; }
+if (!faextender) { var faextender = {}; }
 
 faextender.OpenInTabs = {
 	Bind: function(doc) {

@@ -1,6 +1,6 @@
 /* Story in GDocs */
 
-if (!faextender) { faextender = {}; }
+if (!faextender) { var faextender = {}; }
 
 faextender.StoryInGDocs = {
 	Bind: function(doc) {

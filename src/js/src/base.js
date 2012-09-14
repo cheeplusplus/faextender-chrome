@@ -1,6 +1,6 @@
 /* FAExtender base */
 
-if (!faextender) { faextender = {}; }
+if (!faextender) { var faextender = {}; }
 
 faextender.Base = {
 	// Determine if a page matches the location

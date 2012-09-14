@@ -1,6 +1,6 @@
 /* Hotkey support */
 
-if (!faextender) { faextender = {}; }
+if (!faextender) { var faextender = {}; }
 
 faextender.Hotkeys = {
 	Bind: function(doc) {
