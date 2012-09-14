@@ -2,7 +2,7 @@
 
 if (!faextender) { faextender = {}; }
 
-var faextender.StoryInGDocs = {
+faextender.StoryInGDocs = {
 	Bind: function(doc) {
 		// Reject if already injected
 		if (jQuery("#__ext_fa_gdoclink").length > 0) return;
