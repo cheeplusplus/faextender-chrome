@@ -1,6 +1,6 @@
 {
 	"name": "FurAffinity Extender",
-	"version": "1.0.2",
+	"version": "1.1",
 	"manifest_version": 2,
 	"description": "FurAffinity Extender adds to the your browsing experience of FurAffinity.net by adding additional client-side features.",
 	"icons": {
@@ -9,7 +9,7 @@
 	},
 	"content_scripts": [{
 		"matches": ["http://*.furaffinity.net/*"],
-		"js": ["js/lib/jquery-1.8.1.min.js", "js/lib/jquery.hotkeys.js", "js/src/base.js", "js/src/hotkeys.js", "js/src/open_in_tabs.js", "js/src/story_in_gdocs.js"]
+		"js": ["js/lib/jquery-1.8.1.min.js", "js/lib/jquery.hotkeys.js", "js/src/base.js", "js/src/hotkeys.js", "js/src/open_in_tabs.js", "js/src/story_in_gdocs.js", "js/src/highlighter.js"]
 	}],
 	"homepage_url": "http://andrewneo.github.com/faextender-chrome/",
 	"options_page": "options.html",

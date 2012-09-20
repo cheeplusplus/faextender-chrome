@@ -4,6 +4,7 @@
 		<title>FurAffinity Extender Settings</title>
 		<script type="text/javascript" src="js/lib/jquery-1.8.1.min.js"></script>
 		<script type="text/javascript" src="js/src/options.js"></script>
+		<link rel="shortcut icon" href="icon32.png" />
 	</head>
 	<body>
 		<h1>FurAffinity Extender Settings</h1>
@@ -18,6 +19,35 @@
 		<div>
 			<input type="checkbox" id="hotkeys" name="hotkeys" />
 			<label for="hotkeys" title="Use this if you want to enable hotkey navigation.">Enable hotkeys</label>
+		</div>
+		<br />
+		<div>
+			<h3>Journal/submission highlighting</h3>
+			<table id="highlight_table" border="1">
+				<thead>
+					<tr><th>Type</th><th>Field</th><th>Field contains text</th><th>Background color</th><td></td></tr>
+				</thead>
+				<tbody></tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<select id="highlight_type">
+								<option value="submission">Submission</option>
+								<option value="journal">Journal</option>
+							</select>
+						</td>
+						<td>
+							<select id="highlight_field">
+								<option value="title">Title</option>
+								<option value="user">Username</option>
+							</select>
+						</td>
+						<td><input type="text" id="highlight_text" /></td>
+						<td><input type="text" id="highlight_color" /></td>
+						<td><input type="button" id="highlight_add" value="Add" /></td>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 		<br />
 		<br />
