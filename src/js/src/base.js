@@ -64,6 +64,6 @@ faextender.Base = {
 	}
 }
 
-$(document).ready(function() {
+$(document).bind("DOMContentLoaded", function() {
 	faextender.Base.onPageLoad(document);
 });
