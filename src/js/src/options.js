@@ -32,7 +32,7 @@ function bindOptions() {
 }
 
 var highlight_state;
-var highlight_translate = { "submission": "Submission", "journal": "Journal", "title": "Title", "username": "Username" };
+var highlight_translate = { "submission": "Submission", "journal": "Journal", "title": "Title", "user": "Username" };
 
 function loadHighlight(keys) {
 	if (!keys) keys = [];
