@@ -1,11 +1,12 @@
 function loadOptions() {
-	chrome.storage.sync.get(["openintabs_nodelay", "openintabs_unreverse", "hotkeys_enabled", "highlighter_keys"], optionsLoaded);
+	chrome.storage.sync.get(["openintabs_nodelay", "openintabs_unreverse", "hotkeys_enabled", "notifier_delay", "highlighter_keys"], optionsLoaded);
 }
 
 function optionsLoaded(obj) {
 	$("#delaytabs").prop("checked", !obj.openintabs_nodelay);
 	$("#reversetabs").prop("checked", !obj.openintabs_unreverse);
 	$("#hotkeys").prop("checked", obj.hotkeys_enabled);
+	$("#notifierdelay").val(obj.notifier_delay);
 	loadHighlight(obj.highlighter_keys);
 }
 
@@ -22,6 +23,14 @@ function bindOptions() {
 		chrome.storage.sync.set( { "hotkeys_enabled": $(e.target).prop("checked") } );
 	});
 	
+	jQuery("#notifierdelay").change(function(e) {
+		var textVal = $(e.target).val();
+		var val = parseInt(textVal);
+		if ((val == NaN) || (val < 1)) val = 0;
+
+		chrome.storage.sync.set( { "notifier_delay": val });
+	})
+
 	jQuery("#highlight_add").click(addNewHighlight);
 
 	jQuery("#reset").click(function() {
