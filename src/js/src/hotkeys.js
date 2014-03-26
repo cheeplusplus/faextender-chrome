@@ -45,4 +45,4 @@ faextender.Hotkeys = {
 	}
 }
 
-faextender.Base.registerTarget(faextender.Hotkeys.Bind, "/view/");
+faextender.Base.registerTarget(faextender.Hotkeys.Bind, ["/view/", "/full/"]);

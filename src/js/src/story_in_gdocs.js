@@ -34,4 +34,4 @@ faextender.StoryInGDocs = {
 	}
 }
 
-faextender.Base.registerTarget(faextender.StoryInGDocs.Bind, "/view/");
+faextender.Base.registerTarget(faextender.StoryInGDocs.Bind, ["/view/", "/full/"]);
