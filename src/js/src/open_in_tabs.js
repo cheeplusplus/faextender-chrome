@@ -36,28 +36,28 @@ faextender.OpenInTabs = {
 		// Create Open in Tabs link
 		var openLink = jQuery("<a>").attr("id", "__ext_fa_opentabs").attr("href", "javascript:void(0);").text("Open images in tabs");
 
-		// Find our tabs open injection point (submissions then general)
+		// Find our tabs open injection point
+		// Try submissions first
 		var tabsOpenInsertPos = jQuery("#messagecenter-submissions div.actions");
 		if (tabsOpenInsertPos.length > 0) {
 			tabsOpenInsertPos.first().after(openLink);
 		}
 		else {
-			// Injection paths to test
+			// Try other pages
 			var testPaths = [
-				"id('gallery')/table[2]/tbody/tr/td/table/tbody/tr[1]/td[2]", // Gallery
-				"id('scraps')/table[2]/tbody/tr/td/table/tbody/tr[1]/td[2]", // Scraps
-				"id('favorites')/table[2]/tbody/tr/td/table/tbody/tr[1]/td[2]" // Favorites
+				"#page-galleryscraps div.page-options", // Gallery/scraps
+				"#favorites td.cat>table.maintable>tbody>tr>td:nth(1)" // Favorites
 			];
-			
+
 			// Iterate through each test path until we find a valid one
 			for (var i = 0; i < testPaths.length; i++) {
-				tabsOpenInsertPos = jQuery(faextender.Base.getXPath(doc, testPaths[i]));
+				tabsOpenInsertPos = jQuery(testPaths[i]);
 				if (tabsOpenInsertPos.length > 0) break;
 			}
 			
 			// Abort if not found
 			if (tabsOpenInsertPos.length == 0) {
-				faextender.Base.logError("Bad tabs open xpath, aborting");
+				faextender.Base.logError("Bad tabs open selector, aborting");
 				return;
 			}
 			

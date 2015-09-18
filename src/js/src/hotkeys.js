@@ -14,10 +14,29 @@ faextender.Hotkeys = {
 	},
 	
 	Init: function(doc) {
+		var prevLink = null;
+		var prevHref = null;		
+		var nextLink = null;
+		var nextHref = null;
+
+		// Check for view page
+		var miniTarget = jQuery(".minigalleries .minigallery-title");
+		if (miniTarget.length > 0) {
+			// View page
+			prevLink = miniTarget.prev().find("a");
+			nextLink = miniTarget.next().find("a");
+		}
+
+		if (prevLink && prevLink.length > 0) {
+			prevHref = prevLink[0].href;
+		}
+		if (prevLink && nextLink.length > 0) {
+			nextHref = nextLink[0].href;
+		}
+
 		// Previous link
 		var prevClick = function() {
-			var href = jQuery("a.prev").attr("href");
-			if (href) doc.location.href = href;
+			if (prevHref) doc.location.href = prevHref;
 		}
 		
 		jQuery(doc).bind("keydown", "left", prevClick);
@@ -25,8 +44,7 @@ faextender.Hotkeys = {
 		
 		// Next
 		var nextClick = function() {
-			var href = jQuery("a.next").attr("href");
-			if (href) doc.location.href = href;
+			if (nextHref) doc.location.href = nextHref;
 		}
 		
 		jQuery(doc).bind("keydown", "right", nextClick);

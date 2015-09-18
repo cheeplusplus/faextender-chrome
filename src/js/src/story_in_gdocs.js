@@ -8,7 +8,7 @@ faextender.StoryInGDocs = {
 		if (jQuery("#__ext_fa_gdoclink").length > 0) return;
 		
 		// Find injection location
-		var downloadLink = jQuery("#submission div.actions b a:contains('Download')");
+		var downloadLink = jQuery("#page-submission div.actions>b>a:contains('Download')");
 		if (downloadLink.length == 0) {
 			// No download at all
 			faextender.Base.logError("Could not find download link, aborting");

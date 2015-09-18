@@ -21,11 +21,6 @@ faextender.Base = {
 		return false;
 	},
 
-	// Wrap xpath handling
-	getXPath: function(doc, path) {
-		return doc.evaluate(path, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-	},
-
 	// Log an error
 	logError: function(msg) {
 		console.log("FAExtender error: " + msg);
