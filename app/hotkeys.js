@@ -1,26 +1,19 @@
 /* Hotkey support */
 
-if (!faextender) { var faextender = {}; }
+const StorageLoader = require("./loaderclasses").StorageLoader;
 
-faextender.Hotkeys = {
-	Bind: function(doc) {
-		chrome.storage.sync.get("hotkeys_enabled", function(obj) {
-			faextender.Hotkeys.VarCheck(doc, obj);
-		});
-	},
-	
-	VarCheck: function(doc, obj) {
-		if (obj.hotkeys_enabled) faextender.Hotkeys.Init(doc);
-	},
-	
-	Init: function(doc) {
-		var prevLink = null;
-		var prevHref = null;		
-		var nextLink = null;
-		var nextHref = null;
+class Hotkeys extends StorageLoader {
+	constructor() {
+		super("hotkeys_enabled");
+	}
+
+	Init(doc) {
+		if (!this.Options.hotkeys_enabled) return;
+
+		let prevLink, prevHref, nextLink, nextHref;
 
 		// Check for view page
-		var miniTarget = jQuery(".minigalleries .minigallery-title");
+		const miniTarget = jQuery(".minigalleries .minigallery-title");
 		if (miniTarget.length > 0) {
 			// View page
 			prevLink = miniTarget.prev().find("a");
@@ -35,24 +28,24 @@ faextender.Hotkeys = {
 		}
 
 		// Previous link
-		var prevClick = function() {
+		const prevClick = () => {
 			if (prevHref) doc.location.href = prevHref;
-		}
+		};
 		
 		jQuery(doc).bind("keydown", "left", prevClick);
 		jQuery(doc).bind("keydown", "p", prevClick);
 		
 		// Next
-		var nextClick = function() {
+		const nextClick = () => {
 			if (nextHref) doc.location.href = nextHref;
-		}
+		};
 		
 		jQuery(doc).bind("keydown", "right", nextClick);
 		jQuery(doc).bind("keydown", "n", nextClick);
 		
 		// Favorite
 		jQuery(doc).bind("keydown", "f", function() {
-			var href = jQuery("a[href^='/fav/']:contains('+Add to Favorites')").attr("href");
+			const href = jQuery("a[href^='/fav/']:contains('+Add to Favorites')").attr("href");
 			if (href) doc.location.href = href;
 		});
 		
@@ -63,4 +56,7 @@ faextender.Hotkeys = {
 	}
 }
 
-faextender.Base.registerTarget(faextender.Hotkeys.Bind, ["/view/", "/full/"]);
+
+module.exports = (base) => {
+	base.registerTarget(() => new Hotkeys(), ["/view/", "/full/"]);
+};

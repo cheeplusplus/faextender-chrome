@@ -3,19 +3,20 @@
 // http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript/901144#901144
 function queryString(name) {
 	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regexS = "[\\?&]" + name + "=([^&#]*)";
-	var regex = new RegExp(regexS);
-	var results = regex.exec(window.location.href);
-	if (results == null)
+	const regexS = "[\\?&]" + name + "=([^&#]*)";
+	const regex = new RegExp(regexS);
+	const results = regex.exec(window.location.href);
+	if (results === null)
 		return "";
 	else
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-var countdownURL = "";
-var countdownTimer = 0;
-var urlLabel = null;
-var delayLabel = null;
+
+let countdownURL = "";
+let countdownTimer = 0;
+let urlLabel = null;
+let delayLabel = null;
 
 function tabDelayOnLoad() {
 	// URL parameters:
@@ -27,14 +28,10 @@ function tabDelayOnLoad() {
 	urlLabel = document.getElementById("redirURL");
 	delayLabel = document.getElementById("redirTime");
 	
-	if (countdownURL == "false") {
+	if (countdownURL === "false") {
 		urlLabel.innerHTML = "Error: Invalid URL";
 		return;
-	}
-	else if ((countdownTimer == "false") || (countdownTimer < 1)) {
-		//delayLabel.innerHTML = "Error: Invalid delay time";
-		//return;
-		
+	} else if ((countdownTimer === "false") || (countdownTimer < 1)) {
 		// Instead of aborting with an error, redirect immediately
 		countdownTimer = 0;
 	}
@@ -47,7 +44,6 @@ function tabDelayOnLoad() {
 
 function tabDelayCountdown() {
 	if (countdownTimer > 0) {
-
 		document.title = "FurAffinity Redirecting in " + countdownTimer;
 		delayLabel.innerHTML = "in " + countdownTimer;
 		
