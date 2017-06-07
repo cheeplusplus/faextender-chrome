@@ -7,19 +7,18 @@ const Logger = require("./logger");
 class StandardLoader {
     /**
      * Bind a document to the class
-     * @param {Document} doc - Page document
+     * @return {Promise}
      */
-    Bind(doc) {
+    bind() {
         return Promise.resolve().then(() => {
-            this.Init(doc);
+            this.init();
         });
     }
 
     /**
      * Initialize the binding. Override this
-     * @param {Document} doc - Page document
      */
-    Init(doc) {
+    init() {
         Logger.error("Base init called in loader");
     }
 }
@@ -36,12 +35,12 @@ class StorageLoader extends StandardLoader {
 
     /**
      * Bind a document to the class
-     * @param {Document} doc - Page document
+     * @return {Promise}
      */
-    Bind(doc) {
+    bind() {
         return browser.storage.sync.get(this.storageVars).then((obj) => {
-            this.Options = obj;
-            this.Init(doc);
+            this.options = obj;
+            this.init();
         });
     }
 }

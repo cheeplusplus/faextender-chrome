@@ -1,21 +1,28 @@
-'use strict';
-
 const webpack = require("webpack-stream");
 const gulp = require("gulp");
 const zip = require("gulp-zip");
 const del = require("del");
 const mainBowerFiles = require("main-bower-files");
 const exists = require("path-exists").sync;
+const eslint = require("gulp-eslint");
 
 
 gulp.task("clean", () => {
-    return del(['build'])
+    return del(["build"]);
+});
+
+
+gulp.task("lint", () => {
+    return gulp.src(["app/*.js", "src/*.js"])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 
 gulp.task("bower", ["clean"], () => {
-    const bowerWithMin = mainBowerFiles().map( function(path, index, arr) {
-        const newPath = path.replace(/.([^.]+)$/g, '.min.$1');
+    const bowerWithMin = mainBowerFiles().map((path) => {
+        const newPath = path.replace(/.([^.]+)$/g, ".min.$1");
         return exists(newPath) ? newPath : path;
     });
 

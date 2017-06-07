@@ -1,10 +1,12 @@
+/* eslint no-console: "off"*/
+
 /**
  * Logger
  */
 class Logger {
     /**
      * Log an error message
-     * @param {*} args 
+     * @param {*} args
      */
     error(...args) {
         console.warn("FAExtender error", ...args);
@@ -12,7 +14,7 @@ class Logger {
 
     /**
      * Log a debug message
-     * @param {*} args 
+     * @param {*} args
      */
     debug(...args) {
         console.log("FAExtender debug", ...args);
