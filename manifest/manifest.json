@@ -6,6 +6,10 @@
 		"48": "icon48.png",
 		"128": "icon128.png"
 	},
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
 	"content_scripts": [{
 		"matches": ["*://*.furaffinity.net/*"],
 		"js": ["jquery.min.js", "jquery.hotkeys.js", "page_inject.js"],
@@ -19,6 +23,7 @@
 		"page": "options.html"
 	},
 	"permissions": [
-		"storage"
+		"storage",
+		"downloads"
 	]
 }

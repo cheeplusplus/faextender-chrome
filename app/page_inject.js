@@ -3,6 +3,7 @@
 const Base = require("./base");
 const base = new Base();
 
+require("./downloader")(base);
 require("./highlighter")(base);
 require("./hotkeys")(base);
 require("./open_in_tabs")(base);

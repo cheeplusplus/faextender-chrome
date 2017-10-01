@@ -49,8 +49,9 @@ function autopack(filename) {
 }
 
 gulp.task("pack_ext:inject", ["clean"], () => autopack("page_inject.js"));
+gulp.task("pack_ext:background", ["clean"], () => autopack("background.js"));
 gulp.task("pack_ext:options", ["clean"], () => autopack("options.js"));
-gulp.task("pack_ext", ["pack_ext:inject", "pack_ext:options"]);
+gulp.task("pack_ext", ["pack_ext:inject", "pack_ext:background", "pack_ext:options"]);
 
 
 function buildVersionTasks(env) {

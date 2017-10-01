@@ -4,11 +4,13 @@ const browser = require("webextension-polyfill");
 
 
 function loadOptions() {
-    const keys = ["openintabs_nodelay", "openintabs_unreverse", "hotkeys_enabled", "highlighter_keys"];
+    const keys = ["openintabs_nodelay", "openintabs_unreverse", "hotkeys_enabled", "highlighter_keys", "save_folder", "save_subdirs"];
     return browser.storage.sync.get(keys).then((obj) => {
         jQuery("#delaytabs").prop("checked", !obj.openintabs_nodelay);
         jQuery("#reversetabs").prop("checked", !obj.openintabs_unreverse);
         jQuery("#hotkeys").prop("checked", obj.hotkeys_enabled);
+        jQuery("#savefolder").val(obj.save_folder);
+        jQuery("#saveartistssubfolder").prop("checked", obj.save_subdirs);
         return loadHighlight(obj.highlighter_keys);
     });
 }
@@ -21,6 +23,8 @@ function bindOptions() {
     jQuery("#delaytabs").change((e) => setKey("openintabs_nodelay", !jQuery(e.target).prop("checked")));
     jQuery("#reversetabs").change((e) => setKey("openintabs_unreverse", !jQuery(e.target).prop("checked")));
     jQuery("#hotkeys").change((e) => setKey("hotkeys_enabled", jQuery(e.target).prop("checked")));
+    jQuery("#savefolder").change((e) => setKey("save_folder", jQuery(e.target).val()));
+    jQuery("#saveartistsubfolder").change((e) => setKey("save_subdirs", jQuery(e.target).prop("checked")));
     jQuery("#highlight_add").click(addNewHighlight);
     jQuery("#reset").click(() => {
         browser.storage.sync.clear().then(() => {
