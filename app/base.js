@@ -10,16 +10,16 @@ class Base {
         this.targets = [];
     }
 
-	/**
-	 * Determine if a page matches the location
-	 * @param {Array<String>} allowed - Allowed paths
-	 * @return {Boolean} Returns true if location matches, false if not
-	 */
+    /**
+     * Determine if a page matches the location
+     * @param {Array<String>} allowed - Allowed paths
+     * @return {Boolean} Returns true if location matches, false if not
+     */
     checkLocation(allowed) {
         const loc = document.location;
         if (!loc) return false;
 
-		// Check each allowed path
+        // Check each allowed path
         for (let i = 0; i < allowed.length; i++) {
             const path = allowed[i];
             if (loc.pathname.indexOf(path) === 0) return true;
@@ -28,11 +28,11 @@ class Base {
         return false;
     }
 
-	/**
-	 * Register a function to call on page load
-	 * @param {Function} callback - Callback to execute
-	 * @param {Array<String>} locations - Locations to test against
-	 */
+    /**
+     * Register a function to call on page load
+     * @param {Function} callback - Callback to execute
+     * @param {Array<String>} locations - Locations to test against
+     */
     registerTarget(callback, locations) {
         if (!callback) {
             Logger.error("Callback registered was null");
@@ -42,9 +42,9 @@ class Base {
         this.targets.push({"callback": callback, "locations": locations});
     }
 
-	/**
-	 * Fired when an individual page/tab loads
-	 */
+    /**
+     * Fired when an individual page/tab loads
+     */
     onPageLoad() {
         this.targets.forEach((target) => {
             if (this.checkLocation(target.locations)) {

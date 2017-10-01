@@ -36,10 +36,10 @@ function loadHighlight(keys) {
     if (!keys) keys = [];
     highlightState = keys;
 
-	// Get tbody
+    // Get tbody
     const tableBody = jQuery("table#highlight_table tbody");
 
-	// Clear tbody rows
+    // Clear tbody rows
     tableBody.empty();
 
     keys.forEach((item, i) => {
@@ -58,10 +58,10 @@ function loadHighlight(keys) {
 }
 
 function saveHighlight() {
-	// Enforce data integrety
+    // Enforce data integrety
     if (!Array.isArray(highlightState)) return Promise.resolve();
 
-	// Save to storage
+    // Save to storage
     return setKey("highlighter_keys", highlightState).then(() => loadHighlight(highlightState));
 }
 

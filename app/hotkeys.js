@@ -12,10 +12,10 @@ class Hotkeys extends StorageLoader {
 
         let prevLink, prevHref, nextLink, nextHref;
 
-		// Check for view page
+        // Check for view page
         const miniTarget = jQuery(".minigalleries .minigallery-title");
         if (miniTarget.length > 0) {
-			// View page
+            // View page
             prevLink = miniTarget.prev().find("a");
             nextLink = miniTarget.next().find("a");
         }
@@ -27,7 +27,7 @@ class Hotkeys extends StorageLoader {
             nextHref = nextLink[0].href;
         }
 
-		// Previous link
+        // Previous link
         const prevClick = () => {
             if (prevHref) document.location.href = prevHref;
         };
@@ -35,7 +35,7 @@ class Hotkeys extends StorageLoader {
         jQuery(document).bind("keydown", "left", prevClick);
         jQuery(document).bind("keydown", "p", prevClick);
 
-		// Next
+        // Next
         const nextClick = () => {
             if (nextHref) document.location.href = nextHref;
         };
@@ -43,13 +43,13 @@ class Hotkeys extends StorageLoader {
         jQuery(document).bind("keydown", "right", nextClick);
         jQuery(document).bind("keydown", "n", nextClick);
 
-		// Favorite
+        // Favorite
         jQuery(document).bind("keydown", "f", function() {
             const href = jQuery("a[href^='/fav/']:contains('+Add to Favorites')").attr("href");
             if (href) document.location.href = href;
         });
 
-		// Save
+        // Save
         jQuery(document).bind("keydown", "s", function() {
             jQuery("a#__ext_fa_imgdl").click();
         });

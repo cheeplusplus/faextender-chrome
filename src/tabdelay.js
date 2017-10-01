@@ -2,6 +2,7 @@
 
 // http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript/901144#901144
 function queryString(name) {
+    // eslint-disable-next-line no-useless-escape
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     const regexS = "[\\?&]" + name + "=([^&#]*)";
     const regex = new RegExp(regexS);
@@ -20,9 +21,9 @@ let urlLabel = null;
 let delayLabel = null;
 
 function tabDelayOnLoad() {
-	// URL parameters:
-	//  url - Destination URL (encoded)
-	//  delay - Time to count down
+    // URL parameters:
+    //  url - Destination URL (encoded)
+    //  delay - Time to count down
 
     countdownURL = queryString("url");
     countdownTimer = queryString("delay");
@@ -33,7 +34,7 @@ function tabDelayOnLoad() {
         urlLabel.innerHTML = "Error: Invalid URL";
         return;
     } else if ((countdownTimer === "false") || (countdownTimer < 1)) {
-		// Instead of aborting with an error, redirect immediately
+        // Instead of aborting with an error, redirect immediately
         countdownTimer = 0;
     }
 
@@ -50,13 +51,13 @@ function tabDelayCountdown() {
 
         if (countdownTimer === 1) {
             delayLabel.innerHTML += " second.";
-        }		else {
+        } else {
             delayLabel.innerHTML += " seconds.";
         }
 
         countdownTimer -= 1;
         setTimeout(tabDelayCountdown, 1000);
-    }	else {
+    } else {
         window.location.href = countdownURL;
     }
 }
