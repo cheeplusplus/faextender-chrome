@@ -4,4 +4,3 @@ node_modules/**
 bower_components/**
 build/**
 gulp.lnk
-.vscode/**
