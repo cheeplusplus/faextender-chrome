@@ -5,6 +5,7 @@ const del = require("del");
 const mainBowerFiles = require("main-bower-files");
 const exists = require("path-exists").sync;
 const eslint = require("gulp-eslint");
+const merge = require("gulp-merge-json");
 
 
 gulp.task("clean", () => {
@@ -47,26 +48,39 @@ function autopack(filename) {
         .pipe(gulp.dest("build/ext/"));
 }
 
-gulp.task("pack_ext_inj", ["clean"], () => {
-    return autopack("page_inject.js");
-});
+gulp.task("pack_ext:inject", ["clean"], () => autopack("page_inject.js"));
+gulp.task("pack_ext:options", ["clean"], () => autopack("options.js"));
+gulp.task("pack_ext", ["pack_ext:inject", "pack_ext:options"]);
 
 
-gulp.task("pack_ext_opt", ["clean"], () => {
-    return autopack("options.js");
-});
+function buildVersionTasks(env) {
+    gulp.task(`pack_manifest:${env}`, ["clean"], () => {
+        return gulp.src(["manifest/manifest.json", `manifest/${env}.json`])
+            .pipe(merge({
+                "fileName": "manifest.json"
+            }))
+            .pipe(gulp.dest(`build/ext_${env}/`));
+    });
 
+    gulp.task(`copy_final:${env}`, ["copy_ext", "pack_ext"], () => {
+        return gulp.src("build/ext/**")
+            .pipe(gulp.dest(`build/ext_${env}/`));
+    });
 
-gulp.task("pack_ext", ["pack_ext_inj", "pack_ext_opt"]);
+    gulp.task(`zip_ext:${env}`, [`copy_final:${env}`, `pack_manifest:${env}`], () => {
+        return gulp.src(`build/ext_${env}/**`)
+            .pipe(zip(`faextender_${env}.zip`))
+            .pipe(gulp.dest("build"));
+    });
 
+    gulp.task(`build:${env}`, [`zip_ext:${env}`]);
+}
 
-gulp.task("zip_ext", ["copy_ext", "pack_ext"], () => {
-    return gulp.src(["build/ext/**"])
-        .pipe(zip("faextender.zip"))
-        .pipe(gulp.dest("build"));
-});
+buildVersionTasks("chrome");
+buildVersionTasks("firefox");
+gulp.task("build", ["build:chrome", "build:firefox"]);
 
 
 // Default task
 
-gulp.task("default", ["zip_ext"]);
+gulp.task("default", ["build"]);

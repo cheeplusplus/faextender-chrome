@@ -1,0 +1,11 @@
+{
+    "version": "3.0",
+	"options_ui": {
+		"browser_style": true
+	},
+    "applications": {
+		"gecko": {
+			"id": "faextender@neocodenetworks.com"
+		}
+	}
+}
