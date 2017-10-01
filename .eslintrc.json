@@ -6,16 +6,8 @@
         "jquery": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "google"],
+    "extends": ["eslint:recommended", "neo"],
     "rules": {
-        "indent": ["error", 4],
-        "quotes": ["error", "double"],
-        "semi": ["error", "always"],
-        "linebreak-style": "off", // temp
-        "require-jsdoc": "off", //"warn",
-        "eqeqeq": "error",
-        "comma-dangle": "off",
-        "one-var": ["error", {"initialized": "never", "uninitialized": "always"}],
-        "max-len": "off"
+        "require-jsdoc": "off" //"warn"
     }
 }

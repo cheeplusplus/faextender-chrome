@@ -17,10 +17,10 @@
     "build": "gulp lint && gulp"
   },
   "devDependencies": {
-    "bower": "^1.8.0",
+    "bower": "^1.8.2",
     "del": "^2.2.2",
-    "eslint": "^3.19.0",
-    "eslint-config-google": "^0.8.0",
+    "eslint": "^4.8.0",
+    "eslint-config-neo": "git+https://github.com/AndrewNeo/eslint-config-neo.git",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "gulp-zip": "^4.0.0",
@@ -29,6 +29,6 @@
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "webextension-polyfill": "^0.1.1"
+    "webextension-polyfill": "^0.1.2"
   }
 }
