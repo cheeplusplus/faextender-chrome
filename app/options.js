@@ -10,7 +10,7 @@ function loadOptions() {
         jQuery("#reversetabs").prop("checked", !obj.openintabs_unreverse);
         jQuery("#hotkeys").prop("checked", obj.hotkeys_enabled);
         jQuery("#savefolder").val(obj.save_folder);
-        jQuery("#saveartistssubfolder").prop("checked", obj.save_subdirs);
+        jQuery("#saveartistsubfolder").prop("checked", obj.save_subdirs);
         return loadHighlight(obj.highlighter_keys);
     });
 }
