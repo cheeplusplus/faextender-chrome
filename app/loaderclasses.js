@@ -1,6 +1,7 @@
 const browser = require("webextension-polyfill");
 const Logger = require("./logger");
 
+
 /**
  * Standard injector
  */

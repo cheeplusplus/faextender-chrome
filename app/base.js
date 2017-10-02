@@ -2,6 +2,7 @@
 
 const Logger = require("./logger");
 
+
 /**
  * Base injector control
  */

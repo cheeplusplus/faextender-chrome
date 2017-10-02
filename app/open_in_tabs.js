@@ -1,13 +1,14 @@
 /* Open in tabs */
 
+const browser = require("webextension-polyfill");
 const Logger = require("./logger");
 const StorageLoader = require("./loaderclasses").StorageLoader;
-const browser = require("webextension-polyfill");
+const settings_keys = require("./common").settings_keys;
 
 
 class OpenInTabs extends StorageLoader {
     constructor() {
-        super("openintabs_unreverse", "openintabs_delay", "openintabs_delaytime");
+        super(settings_keys.openintabs.unreverse, settings_keys.openintabs.no_delay, settings_keys.openintabs.delay_time);
     }
 
     init() {
@@ -19,7 +20,7 @@ class OpenInTabs extends StorageLoader {
         tabLinks = jQuery.makeArray(tabLinks);
 
         // Flip the page link order (oldest to newest by default)
-        if (!this.options.openintabs_unreverse) {
+        if (!this.options[settings_keys.openintabs.unreverse]) {
             tabLinks.reverse();
         }
 
@@ -59,8 +60,8 @@ class OpenInTabs extends StorageLoader {
 
         openLink.click(() => {
             // Find the links, use a delay if configured
-            const queueTimeDelay = this.options.openintabs_delaytime || 2;
-            let useQueueTimer = !this.options.openintabs_nodelay;
+            const queueTimeDelay = this.options[settings_keys.openintabs.delay_time] || 2;
+            let useQueueTimer = !this.options[settings_keys.openintabs.no_delay];
 
             // Start with the delay
             let queueTime = queueTimeDelay;

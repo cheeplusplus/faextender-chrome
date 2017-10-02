@@ -1,10 +1,17 @@
 // FAExtender settings
 
 const browser = require("webextension-polyfill");
+const settings_keys = require("./common").settings_keys;
 
 
 function loadOptions() {
-    const keys = ["openintabs_nodelay", "openintabs_unreverse", "hotkeys_enabled", "highlighter_keys", "save_folder", "save_subdirs"];
+    const keys = [
+        settings_keys.openintabs.no_delay, settings_keys.openintabs.unreverse,
+        settings_keys.hotkeys.enabled,
+        settings_keys.highlighter.keys,
+        settings_keys.downloader.subfolder, settings_keys.downloader.artist_subdirs
+    ];
+
     return browser.storage.sync.get(keys).then((obj) => {
         jQuery("#delaytabs").prop("checked", !obj.openintabs_nodelay);
         jQuery("#reversetabs").prop("checked", !obj.openintabs_unreverse);
@@ -20,11 +27,11 @@ function setKey(key, value) {
 }
 
 function bindOptions() {
-    jQuery("#delaytabs").change((e) => setKey("openintabs_nodelay", !jQuery(e.target).prop("checked")));
-    jQuery("#reversetabs").change((e) => setKey("openintabs_unreverse", !jQuery(e.target).prop("checked")));
-    jQuery("#hotkeys").change((e) => setKey("hotkeys_enabled", jQuery(e.target).prop("checked")));
-    jQuery("#savefolder").change((e) => setKey("save_folder", jQuery(e.target).val()));
-    jQuery("#saveartistsubfolder").change((e) => setKey("save_subdirs", jQuery(e.target).prop("checked")));
+    jQuery("#delaytabs").change((e) => setKey(settings_keys.openintabs.no_delay, !jQuery(e.target).prop("checked")));
+    jQuery("#reversetabs").change((e) => setKey(settings_keys.openintabs.unreverse, !jQuery(e.target).prop("checked")));
+    jQuery("#hotkeys").change((e) => setKey(settings_keys.hotkeys.enabled, jQuery(e.target).prop("checked")));
+    jQuery("#savefolder").change((e) => setKey(settings_keys.downloader.subfolder, jQuery(e.target).val()));
+    jQuery("#saveartistsubfolder").change((e) => setKey(settings_keys.downloader.artist_subdirs, jQuery(e.target).prop("checked")));
     jQuery("#highlight_add").click(addNewHighlight);
     jQuery("#reset").click(() => {
         browser.storage.sync.clear().then(() => {
@@ -66,7 +73,7 @@ function saveHighlight() {
     if (!Array.isArray(highlightState)) return Promise.resolve();
 
     // Save to storage
-    return setKey("highlighter_keys", highlightState).then(() => loadHighlight(highlightState));
+    return setKey(settings_keys.highlighter.keys, highlightState).then(() => loadHighlight(highlightState));
 }
 
 function addNewHighlight() {

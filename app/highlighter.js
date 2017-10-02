@@ -1,6 +1,8 @@
 /* Journal highlight */
 
 const StorageLoader = require("./loaderclasses").StorageLoader;
+const settings_keys = require("./common").settings_keys;
+
 
 class Highlighter extends StorageLoader {
     /*
@@ -14,13 +16,13 @@ class Highlighter extends StorageLoader {
     */
 
     constructor() {
-        super("highlighter_keys");
+        super(settings_keys.highlighter.keys);
         this.args = {};
     }
 
     init() {
         // Exit if no keys are set
-        let keys = this.options.highlighter_keys;
+        let keys = this.options[settings_keys.highlighter.keys];
         if (!keys) return;
         keys = keys.filter((f) => f.type === this.args.name);
         if (!keys) return;

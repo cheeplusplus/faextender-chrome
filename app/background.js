@@ -1,11 +1,12 @@
 /* FAExtender background code */
 
-const Logger = require("./logger");
 const browser = require("webextension-polyfill");
+const Logger = require("./logger");
+const message_actions = require("./common").message_actions;
 
 
 browser.runtime.onMessage.addListener((request, sender, response) => {
-    if (request.action === "save_file") {
+    if (request.action === message_actions.downloader.save) {
         let conflictAction = "prompt";
         if (window.location.protocol === "moz-extension:") {
             // Prompt isn't supported on Firefox
@@ -23,7 +24,7 @@ browser.runtime.onMessage.addListener((request, sender, response) => {
             Logger.error("Got download error", err);
             return {"message": "Error downloading", "err": err.message};
         });
-    } else if (request.action === "find_download_exists") {
+    } else if (request.action === message_actions.downloader.exists) {
         return browser.downloads.search({"url": request.options}).then((downloads) => {
             let exists = false;
             if (downloads && downloads.length > 0) {

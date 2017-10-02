@@ -1,13 +1,14 @@
 /* Download support */
 
+const browser = require("webextension-polyfill");
 const StorageLoader = require("./loaderclasses").StorageLoader;
 const Logger = require("./logger");
-const browser = require("webextension-polyfill");
+const common = require("./common");
 
 
 class Downloader extends StorageLoader {
     constructor() {
-        super("save_folder", "save_subdirs");
+        super(common.settings_keys.downloader.subfolder, common.settings_keys.downloader.artist_subdirs);
     }
 
     trimString(val) {
@@ -118,7 +119,7 @@ class Downloader extends StorageLoader {
         };
 
         // Check if the download exists
-        browser.runtime.sendMessage({"action": "find_download_exists", "options": components.url}).then((exists) => {
+        browser.runtime.sendMessage({"action": common.message_actions.downloader.exists, "options": components.url}).then((exists) => {
             if (exists === true) {
                 chgMsg("File already exists.");
                 return;
@@ -134,7 +135,7 @@ class Downloader extends StorageLoader {
         const fname = components.filename;
         const url = components.url;
 
-        let dir = options.save_folder || "";
+        let dir = options[common.settings_keys.downloader.subfolder] || "";
         if (dir.trim() !== "") {
             dir = dir + "/";
         }
@@ -145,13 +146,13 @@ class Downloader extends StorageLoader {
             artist = components.pretty_artist;
         }*/
 
-        if (options.save_subdirs) {
+        if (options[common.settings_keys.downloader.artist_subdirs]) {
             dir = `${dir}${artist}/`;
         }
 
         const filename = `${dir}${fname}`;
 
-        browser.runtime.sendMessage({"action": "save_file", "options": {url, filename}}).then((msg) => {
+        browser.runtime.sendMessage({"action": common.message_actions.downloader.save, "options": {url, filename}}).then((msg) => {
             downloadSpan.text(msg.message);
 
             if (msg.err) {

@@ -2,6 +2,7 @@
 
 const StandardLoader = require("./loaderclasses").StandardLoader;
 
+
 class StoryInGDocs extends StandardLoader {
     init() {
         // Reject if already injected

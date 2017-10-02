@@ -1,14 +1,16 @@
 /* Hotkey support */
 
 const StorageLoader = require("./loaderclasses").StorageLoader;
+const settings_keys = require("./common").settings_keys;
+
 
 class Hotkeys extends StorageLoader {
     constructor() {
-        super("hotkeys_enabled");
+        super(settings_keys.hotkeys.enabled);
     }
 
     init() {
-        if (!this.options.hotkeys_enabled) return;
+        if (!this.options[settings_keys.hotkeys.enabled]) return;
 
         let prevLink, prevHref, nextLink, nextHref;
 
