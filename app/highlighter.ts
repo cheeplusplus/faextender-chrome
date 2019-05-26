@@ -1,28 +1,24 @@
 /* Journal highlight */
 
-const StorageLoader = require("./loaderclasses").StorageLoader;
-const settings_keys = require("./common").settings_keys;
+import { StorageLoader } from "./loaderclasses";
+import { SettingsKeys, HighlighterKey, HighlightTypes, HightlightFields } from "./common";
 
+interface HighlightArguments {
+    name: HighlightTypes;
+    match: string;
+    tests: {
+        [K in HightlightFields]: string
+    };
+}
 
 class Highlighter extends StorageLoader {
-    /*
-        highlighter_keys should have the following structure:
-        [{
-            "type": "journal|submission"
-            "field": "title|username",
-            "text": "matchtext",
-            "color": "matchcolor"
-        }]
-    */
-
-    constructor() {
-        super(settings_keys.highlighter.keys);
-        this.args = {};
+    constructor(protected args: HighlightArguments) {
+        super(SettingsKeys.highlighter.keys);
     }
 
     init() {
         // Exit if no keys are set
-        let keys = this.options[settings_keys.highlighter.keys];
+        let keys = this.options[SettingsKeys.highlighter.keys];
         if (!keys) return;
         keys = keys.filter((f) => f.type === this.args.name);
         if (!keys) return;
@@ -37,7 +33,7 @@ class Highlighter extends StorageLoader {
         });
     }
 
-    evaluateRow(row, list, type, match) {
+    evaluateRow(row: HTMLElement, list: HighlighterKey[], type: HightlightFields, match: string) {
         // Get match target text
         const target = jQuery(match, row).text().toLowerCase();
 
@@ -60,34 +56,31 @@ class Highlighter extends StorageLoader {
 
 class JournalHighlighter extends Highlighter {
     constructor() {
-        super();
-        this.args = {
+        super({
             "name": "journal",
             "match": "#messages-journals ul.message-stream li",
             "tests": {
                 "user": "a[href^='/user/']",
                 "title": "a[href^='/journal/']"
             }
-        };
+        });
     }
 }
 
 class SubmissionHighlighter extends Highlighter {
     constructor() {
-        super();
-        this.args = {
+        super({
             "name": "submission",
-            "match": "#messages-form .messagecenter b",
+            "match": "section.gallery figure",
             "tests": {
                 "user": "a[href^='/user/']",
-                "title": "span"
+                "title": "a[href^='/view/']"
             }
-        };
+        });
     }
 }
 
-
-module.exports = (base) => {
-    base.registerTarget(() => new JournalHighlighter(), "/msg/others/");
-    base.registerTarget(() => new SubmissionHighlighter(), "/msg/submissions/");
-};
+export default function(base: import("./base").Base) {
+    base.registerTarget(() => new JournalHighlighter(), ["/msg/others/"]);
+    base.registerTarget(() => new SubmissionHighlighter(), ["/msg/submissions/"]);
+}

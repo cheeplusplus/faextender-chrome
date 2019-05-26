@@ -1,25 +1,30 @@
 /* Hotkey support */
 
-const StorageLoader = require("./loaderclasses").StorageLoader;
-const settings_keys = require("./common").settings_keys;
+require("jquery.hotkeys");
+
+import { StorageLoader } from "./loaderclasses";
+import { SettingsKeys } from "./common";
 
 
 class Hotkeys extends StorageLoader {
     constructor() {
-        super(settings_keys.hotkeys.enabled);
+        super(SettingsKeys.hotkeys.enabled);
     }
 
     init() {
-        if (!this.options[settings_keys.hotkeys.enabled]) return;
+        if (!this.options[SettingsKeys.hotkeys.enabled]) return;
 
-        let prevLink, prevHref, nextLink, nextHref;
+        let prevLink: JQuery<HTMLAnchorElement>;
+        let prevHref: string;
+        let nextLink: JQuery<HTMLAnchorElement>;
+        let nextHref: string;
 
         // Check for view page
         const miniTarget = jQuery(".minigalleries .minigallery-title");
         if (miniTarget.length > 0) {
             // View page
-            prevLink = miniTarget.prev().find("a");
-            nextLink = miniTarget.next().find("a");
+            prevLink = miniTarget.prev().find("a") as JQuery<HTMLAnchorElement>;
+            nextLink = miniTarget.next().find("a") as JQuery<HTMLAnchorElement>;
         }
 
         if (prevLink && prevLink.length > 0) {
@@ -58,7 +63,6 @@ class Hotkeys extends StorageLoader {
     }
 }
 
-
-module.exports = (base) => {
+export default function(base: import("./base").Base) {
     base.registerTarget(() => new Hotkeys(), ["/view/", "/full/"]);
-};
+}

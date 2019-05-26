@@ -1,7 +1,6 @@
 /* Story in GDocs */
 
-const StandardLoader = require("./loaderclasses").StandardLoader;
-
+import { StandardLoader } from "./loaderclasses";
 
 class StoryInGDocs extends StandardLoader {
     init() {
@@ -34,7 +33,6 @@ class StoryInGDocs extends StandardLoader {
     }
 }
 
-
-module.exports = (base) => {
+export default function(base: import("./base").Base) {
     base.registerTarget(() => new StoryInGDocs(), ["/view/", "/full/"]);
-};
+}

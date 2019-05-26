@@ -9,10 +9,14 @@ FurAffinity Extender adds features to enhance your browsing experience of FurAff
 * Open all images in tabs
 * Open stories in Google Docs previewer
 
+### Technology
+* WebExtensions
+* Typescript
+* Webpack
+
 ### Building
 * Install node and npm
 * Run `npm install`
-* Run `bower install`
-* Run `gulp build`
+* Run `npm run build`
 
 Extension zip files will be in `build/`.

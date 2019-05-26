@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "allowJs": true,
+        "sourceMap": true,
+        "outDir": "build"
+    },
+    "include": [
+        "app/**/*"
+    ]
+}

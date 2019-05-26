@@ -3,9 +3,10 @@
 	"options_ui": {
 		"browser_style": true
 	},
-    "applications": {
+    "browser_specific_settings": {
 		"gecko": {
-			"id": "faextender@neocodenetworks.com"
+			"id": "faextender@neocodenetworks.com",
+			"strict_min_version": "54.0"
 		}
 	}
 }

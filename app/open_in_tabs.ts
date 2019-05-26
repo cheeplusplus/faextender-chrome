@@ -1,26 +1,25 @@
 /* Open in tabs */
 
-const browser = require("webextension-polyfill");
-const Logger = require("./logger");
-const StorageLoader = require("./loaderclasses").StorageLoader;
-const settings_keys = require("./common").settings_keys;
+import { browser } from "webextension-polyfill-ts";
+import { Logger } from "./logger";
+import { StorageLoader } from "./loaderclasses";
+import { SettingsKeys } from "./common";
 
 
 class OpenInTabs extends StorageLoader {
     constructor() {
-        super(settings_keys.openintabs.unreverse, settings_keys.openintabs.no_delay, settings_keys.openintabs.delay_time);
+        super(SettingsKeys.openintabs.unreverse, SettingsKeys.openintabs.no_delay, SettingsKeys.openintabs.delay_time);
     }
 
     init() {
         // Collect all view page links
-        let tabLinks = jQuery("figure figcaption a[href*='/view/']");
+        const tabLinks = jQuery.makeArray(jQuery<HTMLAnchorElement>("figure figcaption a[href*='/view/']"));
 
         // Exit if no valid links were found so we don't inject
         if (tabLinks.length === 0) return;
-        tabLinks = jQuery.makeArray(tabLinks);
 
         // Flip the page link order (oldest to newest by default)
-        if (!this.options[settings_keys.openintabs.unreverse]) {
+        if (!this.options[SettingsKeys.openintabs.unreverse]) {
             tabLinks.reverse();
         }
 
@@ -60,8 +59,8 @@ class OpenInTabs extends StorageLoader {
 
         openLink.click(() => {
             // Find the links, use a delay if configured
-            const queueTimeDelay = this.options[settings_keys.openintabs.delay_time] || 2;
-            let useQueueTimer = !this.options[settings_keys.openintabs.no_delay];
+            const queueTimeDelay = this.options[SettingsKeys.openintabs.delay_time] || 2;
+            let useQueueTimer = !this.options[SettingsKeys.openintabs.no_delay];
 
             // Start with the delay
             let queueTime = queueTimeDelay;
@@ -72,17 +71,16 @@ class OpenInTabs extends StorageLoader {
 
             tabLinks.forEach((thisLink) => {
                 if (useQueueTimer) {
-                    window.open(browser.extension.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink) + "&delay=" + queueTime);
+                    window.open(browser.extension.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink.href) + "&delay=" + queueTime);
                     queueTime += queueTimeDelay;
                 } else {
-                    window.open(thisLink);
+                    window.open(thisLink.href);
                 }
             });
         });
     }
 }
 
-
-module.exports = (base) => {
+export default function(base: import("./base").Base) {
     base.registerTarget(() => new OpenInTabs(), ["/gallery/", "/scraps/", "/favorites/", "/msg/submissions/"]);
-};
+}

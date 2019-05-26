@@ -2,5 +2,6 @@
     "version": "1.2.2",
     "options_ui": {
         "chrome_style": true
-    }
+    },
+    "minimum_chrome_version": "58"
 }

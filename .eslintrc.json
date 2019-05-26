@@ -1,4 +1,13 @@
 {
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        },
+        "project": "./tsconfig.json"
+    },
     "env": {
         "es6": true,
         "browser": true,
@@ -6,8 +15,22 @@
         "jquery": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "neo"],
+    "extends": [
+        "@andrewneo",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended"
+    ],
     "rules": {
-        "require-jsdoc": "off" //"warn"
+        "no-console": "error",
+        "object-curly-spacing": ["warn", "always"],
+        "one-var": ["error", "never"],
+        "quote-props": "warn",
+        "require-jsdoc": "off",
+        "valid-jsdoc": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/member-ordering": "warn",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-use-before-define": "off"
     }
 }

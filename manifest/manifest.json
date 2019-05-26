@@ -7,18 +7,18 @@
 		"128": "icon128.png"
 	},
 	"background": {
-		"scripts": ["background.js"],
+		"scripts": ["background.bundle.js", "vendor.bundle.js"],
 		"persistent": false
 	},
 	"content_scripts": [{
 		"matches": ["*://*.furaffinity.net/*"],
-		"js": ["jquery.min.js", "jquery.hotkeys.js", "page_inject.js"],
+		"js": ["page_inject.bundle.js", "vendor.bundle.js"],
 		"run_at": "document_start"
 	}],
 	"web_accessible_resources": [
 		"tabdelay.html"
 	],
-	"homepage_url": "http://andrewneo.github.com/faextender-chrome/",
+	"homepage_url": "https://cheeplusplus.github.io/faextender-chrome/",
 	"options_ui": {
 		"page": "options.html"
 	},
