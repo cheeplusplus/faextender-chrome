@@ -16,7 +16,7 @@ class Downloader extends StorageLoader {
     }
 
     getDownloadLink() {
-        const downloadLink = jQuery("#page-submission div.actions>b>a:contains('Download')");
+        const downloadLink = jQuery("#page-submission div.actions a:contains('Download')");
         if (downloadLink.length === 0) {
             // No download at all
             Logger.error("Could not find download link");
@@ -33,7 +33,7 @@ class Downloader extends StorageLoader {
     }
 
     getArtistLink() {
-        const artistLink = jQuery("#page-submission table.maintable td.cat>a[href*='/user/']");
+        const artistLink = jQuery("#page-submission table.maintable td.cat div.information a[href*='/user/']");
         if (artistLink.length === 0) {
             // Can't find artist link
             Logger.error("Could not find artist selector");

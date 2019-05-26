@@ -9,7 +9,7 @@ class StoryInGDocs extends StandardLoader {
         if (jQuery("#__ext_fa_gdoclink").length > 0) return;
 
         // Find injection location
-        const downloadLink = jQuery("#page-submission div.actions>b>a:contains('Download')");
+        const downloadLink = jQuery("#page-submission div.actions a:contains('Download')");
         if (downloadLink.length === 0) {
             // No download at all
             return;
