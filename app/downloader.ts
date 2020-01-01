@@ -4,6 +4,7 @@ import { browser } from "webextension-polyfill-ts";
 import { StorageLoader } from "./loaderclasses";
 import { Logger } from "./logger";
 import { SettingsKeys, MessageActions, MessageTypeDownloaderExists, SettingsKeyTypes, MessageTypeDownloaderSave } from "./common";
+import { getInjectionElement } from "./_injection_list";
 
 interface Components {
     "url": string;
@@ -70,7 +71,7 @@ class Downloader extends StorageLoader {
         }
 
         // Find our download text injection point
-        const downloadInsertPos = jQuery("#page-submission .maintable:first th.cat");
+        const downloadInsertPos = getInjectionElement("downloadInsertPosition");
         if (downloadInsertPos.length === 0) {
             // Can't find either
             Logger.error("Bad download inject selector, aborting");
@@ -113,7 +114,7 @@ class Downloader extends StorageLoader {
     }
 
     private getDownloadLink() {
-        const downloadLink = jQuery<HTMLAnchorElement>("#page-submission div.actions a:contains('Download')");
+        const downloadLink = getInjectionElement("downloadLink");
         if (downloadLink.length === 0) {
             // No download at all
             Logger.error("Could not find download link");
@@ -124,7 +125,7 @@ class Downloader extends StorageLoader {
     }
 
     private getArtistLink() {
-        const artistLink = jQuery<HTMLAnchorElement>("#page-submission table.maintable td.cat div.information a[href*='/user/']");
+        const artistLink = getInjectionElement("artistLink");
         if (artistLink.length === 0) {
             // Can't find artist link
             Logger.error("Could not find artist selector");
@@ -166,6 +167,6 @@ class Downloader extends StorageLoader {
     }
 }
 
-export default function(base: import("./base").Base) {
+export default function (base: import("./base").Base) {
     base.registerTarget(() => new Downloader(), ["/view/", "/full/"]);
 }

@@ -3,7 +3,8 @@
 require("jquery.hotkeys");
 
 import { StorageLoader } from "./loaderclasses";
-import { SettingsKeys } from "./common";
+import { SettingsKeys, getSubmissionId, getSiteVersion } from "./common";
+import { getInjectionPoint, getInjectionElement } from "./_injection_list";
 
 
 class Hotkeys extends StorageLoader {
@@ -14,27 +15,54 @@ class Hotkeys extends StorageLoader {
     init() {
         if (!this.options[SettingsKeys.hotkeys.enabled]) return;
 
+        // Collect prev/next links
         let prevLink: JQuery<HTMLAnchorElement>;
-        let prevHref: string;
         let nextLink: JQuery<HTMLAnchorElement>;
-        let nextHref: string;
 
-        // Check for view page
-        const miniTarget = jQuery(".minigalleries .minigallery-title");
-        if (miniTarget.length > 0) {
-            // View page
-            prevLink = miniTarget.prev().find("a") as JQuery<HTMLAnchorElement>;
-            nextLink = miniTarget.next().find("a") as JQuery<HTMLAnchorElement>;
-        }
+        if (getSiteVersion() === "beta") {
+            // New layout is missing focal point, so figure it out by submission ID
+            const miniTarget = jQuery(getInjectionPoint("miniGallery") + " a");
+            if (miniTarget.length > 0) {
+                const currentId = getSubmissionId();
+                const allIds = miniTarget.toArray().map((d) => {
+                    const href = jQuery(d).attr("href");
+                    return getSubmissionId(href);
+                }).sort();
 
-        if (prevLink && prevLink.length > 0) {
-            prevHref = prevLink[0].href;
-        }
-        if (prevLink && nextLink.length > 0) {
-            nextHref = nextLink[0].href;
+                let prevId = -1;
+                let nextId = -1;
+                for (let index = 0; index < allIds.length; index++) {
+                    const curId = allIds[index];
+                    if (curId > currentId) {
+                        nextId = curId;
+                        break;
+                    } else {
+                        prevId = curId;
+                    }
+                }
+
+                if (prevId > -1) {
+                    prevLink = miniTarget.parent().find(`a[href*='${prevId}']`) as JQuery<HTMLAnchorElement>;
+                }
+                if (nextId > -1) {
+                    nextLink = miniTarget.parent().find(`a[href*='${nextId}']`) as JQuery<HTMLAnchorElement>;
+                }
+            }
+        } else {
+            // Pull from the minigallery centered around the title
+            const miniTarget = jQuery(getInjectionPoint("miniGallery") + " .minigallery-title");
+            if (miniTarget.length > 0) {
+                prevLink = miniTarget.next().find("a") as JQuery<HTMLAnchorElement>;
+                nextLink = miniTarget.prev().find("a") as JQuery<HTMLAnchorElement>;
+            }
         }
 
         // Previous link
+        let prevHref: string;
+        if (prevLink && prevLink.length > 0) {
+            prevHref = prevLink[0].href;
+        }
+
         const prevClick = () => {
             if (prevHref) document.location.href = prevHref;
         };
@@ -42,7 +70,12 @@ class Hotkeys extends StorageLoader {
         jQuery(document).bind("keydown", "left", prevClick);
         jQuery(document).bind("keydown", "p", prevClick);
 
-        // Next
+        // Next link
+        let nextHref: string;
+        if (nextLink && nextLink.length > 0) {
+            nextHref = nextLink[0].href;
+        }
+
         const nextClick = () => {
             if (nextHref) document.location.href = nextHref;
         };
@@ -51,18 +84,18 @@ class Hotkeys extends StorageLoader {
         jQuery(document).bind("keydown", "n", nextClick);
 
         // Favorite
-        jQuery(document).bind("keydown", "f", function() {
-            const href = jQuery("a[href^='/fav/']:contains('+Add to Favorites')").attr("href");
+        jQuery(document).bind("keydown", "f", function () {
+            const href = getInjectionElement("addFavoriteLink").attr("href");
             if (href) document.location.href = href;
         });
 
         // Save
-        jQuery(document).bind("keydown", "s", function() {
+        jQuery(document).bind("keydown", "s", function () {
             jQuery("a#__ext_fa_imgdl").click();
         });
     }
 }
 
-export default function(base: import("./base").Base) {
+export default function (base: import("./base").Base) {
     base.registerTarget(() => new Hotkeys(), ["/view/", "/full/"]);
 }

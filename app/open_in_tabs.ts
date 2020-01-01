@@ -3,7 +3,8 @@
 import { browser } from "webextension-polyfill-ts";
 import { Logger } from "./logger";
 import { StorageLoader } from "./loaderclasses";
-import { SettingsKeys } from "./common";
+import { SettingsKeys, getSiteVersion } from "./common";
+import { getInjectionElement, getInjectionPoint } from "./_injection_list";
 
 
 class OpenInTabs extends StorageLoader {
@@ -13,7 +14,7 @@ class OpenInTabs extends StorageLoader {
 
     init() {
         // Collect all view page links
-        const tabLinks = jQuery.makeArray(jQuery<HTMLAnchorElement>("figure figcaption a[href*='/view/']"));
+        const tabLinks = jQuery.makeArray(getInjectionElement("standardSubmissionLink"));
 
         // Exit if no valid links were found so we don't inject
         if (tabLinks.length === 0) return;
@@ -27,34 +28,17 @@ class OpenInTabs extends StorageLoader {
         const openLinkCheck = jQuery("#__ext_fa_opentabs");
         if (openLinkCheck.length > 0) return;
 
-        // Create Open in Tabs link
-        const openLink = jQuery("<a>").attr("id", "__ext_fa_opentabs").attr("href", "javascript:void(0);").text("Open images in tabs");
-
         // Find our tabs open injection point
-        // Try submissions first
-        let tabsOpenInsertPos = jQuery("#messagecenter-submissions div.actions");
-        if (tabsOpenInsertPos.length > 0) {
-            tabsOpenInsertPos.first().after(openLink);
+        let openLink: JQuery<HTMLAnchorElement>;
+        if (getSiteVersion() === "beta") {
+            openLink = this.injectBeta();
         } else {
-            // Try other pages
-            const testPaths = [
-                "#page-galleryscraps div.page-options", // Gallery/scraps
-                "#favorites td.cat>table.maintable>tbody>tr>td:nth(1)" // Favorites
-            ];
+            openLink = this.injectClassic();
+        }
 
-            // Iterate through each test path until we find a valid one
-            for (let i = 0; i < testPaths.length; i++) {
-                tabsOpenInsertPos = jQuery(testPaths[i]);
-                if (tabsOpenInsertPos.length > 0) break;
-            }
-
-            // Abort if not found
-            if (tabsOpenInsertPos.length === 0) {
-                Logger.error("Bad tabs open selector, aborting");
-                return;
-            }
-
-            tabsOpenInsertPos.append("<br /><br />").append(openLink);
+        if (!openLink) {
+            // Couldn't inject
+            return;
         }
 
         openLink.click(() => {
@@ -79,8 +63,77 @@ class OpenInTabs extends StorageLoader {
             });
         });
     }
+
+    injectClassic() {
+        // Create Open in Tabs link
+        const openLink = jQuery<HTMLAnchorElement>("<a>")
+            .attr("id", "__ext_fa_opentabs")
+            .attr("href", "javascript:void(0);")
+            .text("Open images in tabs");
+
+        // Try submissions first
+        let tabsOpenInsertPos = getInjectionElement("insertInTabsInsertPositionSubmissions");
+        if (tabsOpenInsertPos.length > 0) {
+            tabsOpenInsertPos.first().after(openLink);
+        } else {
+            // Try other pages
+            const testPaths = [
+                getInjectionPoint("insertInTabsInsertPositionGallery"), // Gallery/scraps
+                getInjectionPoint("insertInTabsInsertPositionFavorites") // Favorites
+            ];
+
+            // Iterate through each test path until we find a valid one
+            for (let i = 0; i < testPaths.length; i++) {
+                tabsOpenInsertPos = jQuery(testPaths[i]);
+                if (tabsOpenInsertPos.length > 0) break;
+            }
+
+            // Abort if not found
+            if (tabsOpenInsertPos.length === 0) {
+                Logger.error("Bad tabs open selector, aborting");
+                return;
+            }
+
+            tabsOpenInsertPos.append("<br /><br />").append(openLink);
+        }
+
+        return openLink;
+    }
+
+    injectBeta() {
+        // Create Open in Tabs link
+        const openDiv = jQuery("<div>").addClass("aligncenter");
+        const openLink = jQuery<HTMLAnchorElement>("<a>")
+            .attr("id", "__ext_fa_opentabs")
+            .attr("href", "javascript:void(0);")
+            .text("Open images in tabs")
+            .appendTo(openDiv);
+
+        // Try pages in order
+        let tabsOpenInsertPos: JQuery<HTMLDivElement>;
+        const testPaths = [
+            getInjectionPoint("insertInTabsInsertPositionSubmissions"), // Submissions
+            getInjectionPoint("insertInTabsInsertPositionGallery"), // Gallery/scraps
+            getInjectionPoint("insertInTabsInsertPositionFavorites") // Favorites
+        ];
+
+        // Iterate through each test path until we find a valid one
+        for (let i = 0; i < testPaths.length; i++) {
+            tabsOpenInsertPos = jQuery(testPaths[i]);
+            if (tabsOpenInsertPos.length > 0) break;
+        }
+
+        // Abort if not found
+        if (tabsOpenInsertPos.length === 0) {
+            Logger.error("Bad tabs open selector, aborting");
+            return;
+        }
+
+        openDiv.insertAfter(tabsOpenInsertPos);
+        return openLink;
+    }
 }
 
-export default function(base: import("./base").Base) {
+export default function (base: import("./base").Base) {
     base.registerTarget(() => new OpenInTabs(), ["/gallery/", "/scraps/", "/favorites/", "/msg/submissions/"]);
 }

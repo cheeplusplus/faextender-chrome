@@ -2,6 +2,7 @@
 
 import { StorageLoader } from "./loaderclasses";
 import { SettingsKeys, HighlighterKey, HighlightTypes, HightlightFields } from "./common";
+import { getInjectionPoint } from "./_injection_list";
 
 interface HighlightArguments {
     name: HighlightTypes;
@@ -58,7 +59,7 @@ class JournalHighlighter extends Highlighter {
     constructor() {
         super({
             "name": "journal",
-            "match": "#messages-journals ul.message-stream li",
+            "match": getInjectionPoint("journalHighlightMatch"),
             "tests": {
                 "user": "a[href^='/user/']",
                 "title": "a[href^='/journal/']"
@@ -71,7 +72,7 @@ class SubmissionHighlighter extends Highlighter {
     constructor() {
         super({
             "name": "submission",
-            "match": "section.gallery figure",
+            "match": getInjectionPoint("submissionHighlightMatch"),
             "tests": {
                 "user": "a[href^='/user/']",
                 "title": "a[href^='/view/']"
@@ -80,7 +81,7 @@ class SubmissionHighlighter extends Highlighter {
     }
 }
 
-export default function(base: import("./base").Base) {
+export default function (base: import("./base").Base) {
     base.registerTarget(() => new JournalHighlighter(), ["/msg/others/"]);
     base.registerTarget(() => new SubmissionHighlighter(), ["/msg/submissions/"]);
 }

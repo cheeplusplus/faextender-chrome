@@ -31,6 +31,7 @@
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/member-ordering": "warn",
         "@typescript-eslint/no-parameter-properties": "off",
-        "@typescript-eslint/no-use-before-define": "off"
+        "@typescript-eslint/no-use-before-define": "off",
+        "space-before-function-paren": "off"
     }
 }
