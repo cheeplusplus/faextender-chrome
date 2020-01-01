@@ -4,24 +4,23 @@
   "description": "FurAffinity Extender adds to the your browsing experience of FurAffinity.net by adding additional client-side features.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndrewNeo/faextender-chrome.git"
+    "url": "git+https://github.com/cheeplusplus/faextender-chrome.git"
   },
-  "author": "AndrewNeo <andrew@andrewneo.com>",
+  "author": "Kauko <kauko@biosynth.link>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AndrewNeo/faextender-chrome/issues"
+    "url": "https://github.com/cheeplusplus/faextender-chrome/issues"
   },
-  "homepage": "https://github.com/AndrewNeo/faextender-chrome#readme",
+  "homepage": "https://github.com/cheeplusplus/faextender-chrome#readme",
   "private": true,
   "scripts": {
-    "build": "npm-run-all build:webpack:chrome build:webpack:firefox",
+    "build": "npm-run-all build:webpack:*",
     "build:debug": "webpack",
     "build:webpack:chrome": "webpack --env.PACKAGE_TARGET=chrome --env.production",
     "build:webpack:firefox": "webpack --env.PACKAGE_TARGET=firefox --env.production",
     "lint": "eslint --ext .js,.ts app/"
   },
   "devDependencies": {
-    "@andrewneo/eslint-config": "^1.0.0",
     "@types/jquery": "^3.3.29",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
