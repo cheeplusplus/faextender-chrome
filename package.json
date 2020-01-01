@@ -21,24 +21,24 @@
     "lint": "eslint --ext .js,.ts app/"
   },
   "devDependencies": {
-    "@types/jquery": "^3.3.29",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
-    "@typescript-eslint/parser": "^1.9.0",
-    "clean-webpack-plugin": "^2.0.2",
-    "copy-webpack-plugin": "^5.0.3",
-    "eslint": "^5.16.0",
+    "@types/jquery": "^3.3.31",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "eslint": "^6.8.0",
     "html-webpack-plugin": "^3.2.0",
-    "merge-jsons-webpack-plugin": "^1.0.19",
+    "merge-jsons-webpack-plugin": "^1.0.20",
     "npm-run-all": "^4.1.5",
-    "ts-loader": "^6.0.1",
-    "typescript": "^3.4.5",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
     "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {
     "jquery": "^3.4.1",
     "jquery.hotkeys": "^0.1.0",
-    "webextension-polyfill-ts": "^0.9.0"
+    "webextension-polyfill-ts": "^0.11.0"
   }
 }
