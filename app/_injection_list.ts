@@ -48,9 +48,9 @@ const InjectionPointList: InjectionVersions = {
         "journalHighlightMatch": "#messages-journals ul.message-stream li",
         "submissionHighlightMatch": "#messagecenter-submissions section.gallery figure",
         "standardSubmissionLink": "figure figcaption a[href*='/view/']",
-        "insertInTabsInsertPositionSubmissions": "#messagecenter-new-submissions div.section-body>div",
-        "insertInTabsInsertPositionGallery": "#page-galleryscraps div.submission-list div.aligncenter",
-        "insertInTabsInsertPositionFavorites": "#standardpage div.aligncenter",
+        "insertInTabsInsertPositionSubmissions": "#messagecenter-new-submissions div.section-body div.aligncenter:first-child",
+        "insertInTabsInsertPositionGallery": "#page-galleryscraps div.submission-list div.aligncenter:first-child",
+        "insertInTabsInsertPositionFavorites": "#standardpage div.aligncenter:first-child",
         "openInGDocsInsertPosition": "#submission_page section.buttons"
     }
 };
