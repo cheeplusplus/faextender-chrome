@@ -1,6 +1,6 @@
 // Load all the page injection scripts
 
-import * as jQuery from "jquery";
+import jQuery from "jquery";
 import { Base } from "./base";
 import hookDownloader from "./downloader";
 import hookHighlighter from "./highlighter";
@@ -15,6 +15,6 @@ hookHotkeys(base);
 hookOpenInTabs(base);
 hookStoryInGdocs(base);
 
-jQuery(document).bind("DOMContentLoaded", () => {
+jQuery(document).on("DOMContentLoaded", () => {
     base.onPageLoad();
 });

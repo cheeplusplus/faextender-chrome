@@ -2,7 +2,7 @@
 
 import { StandardLoader } from "./loaderclasses";
 import { getInjectionElement } from "./_injection_list";
-import { getSiteVersion } from "./common";
+import { getSiteVersion } from "./common_fa";
 
 class StoryInGDocs extends StandardLoader {
     init() {

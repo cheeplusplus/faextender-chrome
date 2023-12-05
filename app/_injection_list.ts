@@ -1,4 +1,4 @@
-import { getSiteVersion } from "./common";
+import { getSiteVersion } from "./common_fa";
 
 type InjectionPointPath<T> = {
     [P in keyof T]: string;

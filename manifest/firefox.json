@@ -1,12 +1,12 @@
 {
-    "version": "3.2.3",
-	"options_ui": {
-		"browser_style": true
+    "version": "3.2.4",
+	"background": {
+		"scripts": ["background.bundle.js"]
 	},
     "browser_specific_settings": {
 		"gecko": {
 			"id": "faextender@neocodenetworks.com",
-			"strict_min_version": "54.0"
+			"strict_min_version": "109.0"
 		}
 	}
 }

@@ -1,9 +1,10 @@
 /* Open in tabs */
 
-import { browser } from "webextension-polyfill-ts";
+import browser from "webextension-polyfill";
 import { Logger } from "./logger";
 import { StorageLoader } from "./loaderclasses";
-import { SettingsKeys, getSiteVersion } from "./common";
+import { SettingsKeys } from "./common";
+import { getSiteVersion } from "./common_fa";
 import { getInjectionElement, getInjectionPoint } from "./_injection_list";
 
 
@@ -41,7 +42,7 @@ class OpenInTabs extends StorageLoader {
             return;
         }
 
-        openLink.click(() => {
+        openLink.on("click", () => {
             // Find the links, use a delay if configured
             const queueTimeDelay = this.options[SettingsKeys.openintabs.delay_time] || 2;
             let useQueueTimer = !this.options[SettingsKeys.openintabs.no_delay];
@@ -55,7 +56,7 @@ class OpenInTabs extends StorageLoader {
 
             tabLinks.forEach((thisLink) => {
                 if (useQueueTimer) {
-                    window.open(browser.extension.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink.href) + "&delay=" + queueTime);
+                    window.open(browser.runtime.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink.href) + "&delay=" + queueTime);
                     queueTime += queueTimeDelay;
                 } else {
                     window.open(thisLink.href);

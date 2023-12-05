@@ -1,6 +1,6 @@
 /* Download support */
 
-import { browser } from "webextension-polyfill-ts";
+import browser from "webextension-polyfill";
 import { StorageLoader } from "./loaderclasses";
 import { Logger } from "./logger";
 import { SettingsKeys, MessageActions, MessageTypeDownloaderExists, SettingsKeyTypes, MessageTypeDownloaderSave } from "./common";
@@ -95,7 +95,7 @@ class Downloader extends StorageLoader {
 
         const configureDownload = () => {
             // Handle link onclick event
-            downloadLink.click(() => {
+            downloadLink.on("click", () => {
                 Downloader.save(this.options, components, downloadSpan);
             });
         };
@@ -160,8 +160,8 @@ class Downloader extends StorageLoader {
         const artist = artistPath.replace("/user/", "").replace("/", "");
         const prettyArtist = artistLink.text();
 
-        const fname = decodeURI(path.substr(path.lastIndexOf("/") + 1));
-        const fext = fname.substr(fname.lastIndexOf(".") + 1);
+        const fname = decodeURI(path.substring(path.lastIndexOf("/") + 1));
+        const fext = fname.substring(fname.lastIndexOf(".") + 1);
 
         return { "url": url, "path": path, "artist": artist, "pretty_artist": prettyArtist, "filename": fname, "extension": fext };
     }

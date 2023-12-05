@@ -41,12 +41,9 @@ module.exports = (env) => {
                 "jQuery": "jquery",
                 "window.jQuery": "jquery"
             }),
-            new CopyWebpackPlugin([
-                {
-                    "from": "./src/*.*",
-                    "flatten": true
-                }
-            ]),
+            new CopyWebpackPlugin({
+                patterns: [{ "from": "src" }]
+            }),
             new MergeJsonWebpackPlugin({
                 "files": [
                     "./manifest/manifest.json",
@@ -64,14 +61,15 @@ module.exports = (env) => {
         ],
         "optimization": {
             "splitChunks": {
+                "chunks": (chunk) => chunk.name !== 'background',
                 "cacheGroups": {
-                    "commons": {
+                    "vendors": {
                         "test": /[\\/]node_modules[\\/]/,
-                        "name": "vendor",
-                        "chunks": "initial"
+                        "name": "vendor"
                     }
                 }
-            }
+            },
+            "usedExports": true
         }
     };
 

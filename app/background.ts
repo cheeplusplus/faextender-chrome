@@ -1,13 +1,14 @@
 /* FAExtender background code */
 
-import { browser } from "webextension-polyfill-ts";
+import browser from "webextension-polyfill";
 import { Logger } from "./logger";
 import { MessageActions, MessageType } from "./common";
 
 browser.runtime.onMessage.addListener(async (request: MessageType) => {
     if (request.action === MessageActions.downloader.save) {
-        let conflictAction: import("webextension-polyfill-ts").Downloads.FilenameConflictAction = "prompt";
-        if (window.location.protocol === "moz-extension:") {
+        let conflictAction: import("webextension-polyfill").Downloads.FilenameConflictAction = "prompt";
+        let manifest = browser.runtime.getManifest();
+        if (manifest.browser_specific_settings?.gecko) {
             // Prompt isn't supported on Firefox
             conflictAction = "overwrite";
         }

@@ -1,23 +1,20 @@
 {
 	"name": "FurAffinity Extender",
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"description": "FurAffinity Extender adds to the your browsing experience of FurAffinity.net by adding additional client-side features.",
 	"icons": {
 		"48": "icon48.png",
 		"128": "icon128.png"
-	},
-	"background": {
-		"scripts": ["background.bundle.js", "vendor.bundle.js"],
-		"persistent": false
 	},
 	"content_scripts": [{
 		"matches": ["*://*.furaffinity.net/*"],
 		"js": ["page_inject.bundle.js", "vendor.bundle.js"],
 		"run_at": "document_start"
 	}],
-	"web_accessible_resources": [
-		"tabdelay.html"
-	],
+	"web_accessible_resources": [{
+		"resources": ["tabdelay.html"],
+		"matches": ["*://*.furaffinity.net/*"]
+	}],
 	"homepage_url": "https://cheeplusplus.github.io/faextender-chrome/",
 	"options_ui": {
 		"page": "options.html"

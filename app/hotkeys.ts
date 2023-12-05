@@ -1,9 +1,10 @@
 /* Hotkey support */
 
-require("jquery.hotkeys");
+import "jquery.hotkeys";
 
 import { StorageLoader } from "./loaderclasses";
-import { SettingsKeys, getSubmissionId, getSiteVersion } from "./common";
+import { SettingsKeys } from "./common";
+import { getSubmissionId, getSiteVersion } from "./common_fa";
 import { getInjectionPoint, getInjectionElement } from "./_injection_list";
 
 
@@ -67,8 +68,8 @@ class Hotkeys extends StorageLoader {
             if (prevHref) document.location.href = prevHref;
         };
 
-        jQuery(document).bind("keydown", "left", prevClick);
-        jQuery(document).bind("keydown", "p", prevClick);
+        jQuery(document).on("keydown", null, "left", prevClick);
+        jQuery(document).on("keydown", null, "p", prevClick);
 
         // Next link
         let nextHref: string;
@@ -80,18 +81,18 @@ class Hotkeys extends StorageLoader {
             if (nextHref) document.location.href = nextHref;
         };
 
-        jQuery(document).bind("keydown", "right", nextClick);
-        jQuery(document).bind("keydown", "n", nextClick);
+        jQuery(document).on("keydown", null, "right", nextClick);
+        jQuery(document).on("keydown", null, "n", nextClick);
 
         // Favorite
-        jQuery(document).bind("keydown", "f", function () {
+        jQuery(document).on("keydown", null, "f", function () {
             const href = getInjectionElement("addFavoriteLink").attr("href");
             if (href) document.location.href = href;
         });
 
         // Save
-        jQuery(document).bind("keydown", "s", function () {
-            jQuery("a#__ext_fa_imgdl").click();
+        jQuery(document).on("keydown", null, "s", function () {
+            jQuery("a#__ext_fa_imgdl").trigger("click");
         });
     }
 }

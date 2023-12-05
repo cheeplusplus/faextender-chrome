@@ -1,7 +1,8 @@
 {
-    "version": "1.2.3",
-    "options_ui": {
-        "chrome_style": true
-    },
-    "minimum_chrome_version": "58"
+    "version": "1.2.4",
+    "minimum_chrome_version": "88",
+    "background": {
+		"service_worker": "background.bundle.js",
+		"type": "module"
+	}
 }

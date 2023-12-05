@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
-        "module": "es6",
-        "target": "es6",
+        "module": "ES6",
+        "target": "ES6",
         "noImplicitAny": true,
         "moduleResolution": "node",
         "allowJs": true,
         "sourceMap": true,
-        "outDir": "build"
+        "outDir": "build",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true
     },
     "include": [
         "app/**/*"

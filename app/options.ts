@@ -1,6 +1,6 @@
 // FAExtender settings
 
-import { browser } from "webextension-polyfill-ts";
+import browser from "webextension-polyfill";
 import { HighlighterKey, HighlightTypes, HightlightFields, SettingsKeys, SettingsKeyTypes } from "./common";
 import { Logger } from "./logger";
 
@@ -28,13 +28,13 @@ function setKey<T extends keyof SettingsKeyTypes>(key: T, value: SettingsKeyType
 }
 
 function bindOptions() {
-    jQuery("#delaytabs").change((e) => setKey(SettingsKeys.openintabs.no_delay, !jQuery(e.target).prop("checked")));
-    jQuery("#reversetabs").change((e) => setKey(SettingsKeys.openintabs.unreverse, !jQuery(e.target).prop("checked")));
-    jQuery("#hotkeys").change((e) => setKey(SettingsKeys.hotkeys.enabled, jQuery(e.target).prop("checked")));
-    jQuery("#savefolder").change((e) => setKey(SettingsKeys.downloader.subfolder, jQuery(e.target).val().toString()));
-    jQuery("#saveartistsubfolder").change((e) => setKey(SettingsKeys.downloader.artist_subdirs, jQuery(e.target).prop("checked")));
-    jQuery("#highlight_add").click(addNewHighlight);
-    jQuery("#reset").click(() => {
+    jQuery("#delaytabs").on("change", (e) => setKey(SettingsKeys.openintabs.no_delay, !jQuery(e.target).prop("checked")));
+    jQuery("#reversetabs").on("change", (e) => setKey(SettingsKeys.openintabs.unreverse, !jQuery(e.target).prop("checked")));
+    jQuery("#hotkeys").on("change", (e) => setKey(SettingsKeys.hotkeys.enabled, jQuery(e.target).prop("checked")));
+    jQuery("#savefolder").on("change", (e) => setKey(SettingsKeys.downloader.subfolder, jQuery(e.target).val().toString()));
+    jQuery("#saveartistsubfolder").on("change", (e) => setKey(SettingsKeys.downloader.artist_subdirs, jQuery(e.target).prop("checked")));
+    jQuery("#highlight_add").on("click", addNewHighlight);
+    jQuery("#reset").on("click", () => {
         browser.storage.sync.clear().then(() => {
             window.location.reload();
         });
@@ -63,7 +63,7 @@ function loadHighlight(keys: HighlighterKey[]) {
         jQuery("<td>").text(item.text).appendTo(row);
         jQuery("<td>").text(item.color).css("background-color", item.color).appendTo(row);
         const removeCol = jQuery("<td>").appendTo(row);
-        jQuery("<input>").attr("type", "button").click(removeHighlight).appendTo(removeCol).val("-");
+        jQuery("<input>").attr("type", "button").on("click", removeHighlight).appendTo(removeCol).val("-");
 
         tableBody.append(row);
     });
@@ -75,7 +75,7 @@ async function saveHighlight() {
 
     // Save to storage
     await setKey(SettingsKeys.highlighter.keys, highlightState);
-    await loadHighlight(highlightState);
+    loadHighlight(highlightState);
 }
 
 function addNewHighlight() {
@@ -99,7 +99,7 @@ function removeHighlight(e: JQuery.ClickEvent<HTMLInputElement>) {
     return saveHighlight();
 }
 
-jQuery(document).ready(() => {
+jQuery(document).on("ready", () => {
     (async function() {
         await loadOptions();
         bindOptions();
