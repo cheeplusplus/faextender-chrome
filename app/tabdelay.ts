@@ -42,6 +42,6 @@ function tabDelayCountdown() {
     }
 }
 
-jQuery(document).on("ready", () => {
+jQuery(function() {
     tabDelayOnLoad();
 });
