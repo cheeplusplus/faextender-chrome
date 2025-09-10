@@ -1,5 +1,5 @@
 {
-    "version": "1.2.4",
+    "version": "1.2.5",
     "minimum_chrome_version": "88",
     "background": {
 		"service_worker": "background.bundle.js",
