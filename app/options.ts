@@ -106,7 +106,7 @@ function removeHighlight(e: JQuery.ClickEvent<HTMLInputElement>) {
     return saveHighlight();
 }
 
-jQuery(document).on("ready", () => {
+jQuery(() => {
     (async function () {
         await loadOptions();
         bindOptions();
