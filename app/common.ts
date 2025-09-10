@@ -19,6 +19,8 @@ export interface SettingsKeyTypes {
     save_subdirs: boolean;
 }
 
+export type FetchedSettingsKeyTypes = { [key: string]: unknown } & SettingsKeyTypes;
+
 export type SettingKeyKeys = keyof SettingsKeyTypes;
 
 export const SettingsKeys = {
@@ -66,11 +68,16 @@ export interface MessageTypeDownloaderSave {
         filename: string;
     };
 }
+export interface MessageTypeDownloaderSaveResponse {
+    message: string;
+    err?: string;
+}
 
 export interface MessageTypeDownloaderExists {
     action: "find_download_exists";
     options: string;
 }
+export type MessageTypeDownloaderExistsResponse = boolean;
 
 export type MessageType = MessageTypeDownloaderSave | MessageTypeDownloaderExists;
 

@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill";
-import { SettingKeyKeys, SettingsKeyTypes } from "./common";
+import { FetchedSettingsKeyTypes, SettingKeyKeys, SettingsKeyTypes } from "./common";
 
 /** Standard injector */
 export abstract class StandardLoader {
@@ -26,7 +26,7 @@ export abstract class StorageLoader extends StandardLoader {
     /** Bind a document to the class */
     async bind() {
         const obj = await browser.storage.sync.get(this.storageVars);
-        this.options = (obj as SettingsKeyTypes);
+        this.options = (obj as FetchedSettingsKeyTypes);
         await this.init();
     }
 }

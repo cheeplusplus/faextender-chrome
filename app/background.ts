@@ -2,12 +2,17 @@
 
 import browser from "webextension-polyfill";
 import { Logger } from "./logger";
-import { MessageActions, MessageType } from "./common";
+import {
+    MessageActions,
+    MessageType,
+    MessageTypeDownloaderExistsResponse,
+    MessageTypeDownloaderSaveResponse
+} from "./common";
 
 browser.runtime.onMessage.addListener(async (request: MessageType) => {
     if (request.action === MessageActions.downloader.save) {
         let conflictAction: import("webextension-polyfill").Downloads.FilenameConflictAction = "prompt";
-        let manifest = browser.runtime.getManifest();
+        const manifest = browser.runtime.getManifest();
         if (manifest.browser_specific_settings?.gecko) {
             // Prompt isn't supported on Firefox
             conflictAction = "overwrite";
@@ -23,7 +28,7 @@ browser.runtime.onMessage.addListener(async (request: MessageType) => {
             return { "message": "Download complete" };
         } catch (err) {
             Logger.error("Got download error", err);
-            return { "message": "Error downloading", "err": err.message };
+            return { "message": "Error downloading", "err": err.message } satisfies MessageTypeDownloaderSaveResponse;
         }
     } else if (request.action === MessageActions.downloader.exists) {
         try {
@@ -38,7 +43,7 @@ browser.runtime.onMessage.addListener(async (request: MessageType) => {
                 }
             }
 
-            return exists;
+            return exists satisfies MessageTypeDownloaderExistsResponse;
         } catch (err) {
             Logger.error("Got download search error", err);
             return false;

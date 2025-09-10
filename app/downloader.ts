@@ -3,7 +3,10 @@
 import browser from "webextension-polyfill";
 import { StorageLoader } from "./loaderclasses";
 import { Logger } from "./logger";
-import { SettingsKeys, MessageActions, MessageTypeDownloaderExists, SettingsKeyTypes, MessageTypeDownloaderSave } from "./common";
+import {
+    SettingsKeys, MessageActions, MessageTypeDownloaderExists, SettingsKeyTypes, MessageTypeDownloaderSave,
+    MessageTypeDownloaderSaveResponse
+} from "./common";
 import { getInjectionElement } from "./_injection_list";
 
 interface Components {
@@ -42,7 +45,7 @@ class Downloader extends StorageLoader {
         const filename = `${dir}${fname}`;
 
         const msg: MessageTypeDownloaderSave = { "action": MessageActions.downloader.save, "options": { url, filename } };
-        browser.runtime.sendMessage(msg).then((response) => {
+        browser.runtime.sendMessage(msg).then((response: MessageTypeDownloaderSaveResponse) => {
             downloadSpan.text(response.message);
 
             if (response.err) {

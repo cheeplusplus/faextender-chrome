@@ -1,7 +1,14 @@
 // FAExtender settings
 
 import browser from "webextension-polyfill";
-import { HighlighterKey, HighlightTypes, HightlightFields, SettingsKeys, SettingsKeyTypes } from "./common";
+import {
+    FetchedSettingsKeyTypes,
+    HighlighterKey,
+    HighlightTypes,
+    HightlightFields,
+    SettingsKeys,
+    SettingsKeyTypes
+} from "./common";
 import { Logger } from "./logger";
 
 async function loadOptions() {
@@ -12,7 +19,7 @@ async function loadOptions() {
         SettingsKeys.downloader.subfolder, SettingsKeys.downloader.artist_subdirs
     ];
 
-    const obj = await browser.storage.sync.get(keys);
+    const obj = (await browser.storage.sync.get(keys)) as FetchedSettingsKeyTypes;
 
     jQuery("#delaytabs").prop("checked", !obj.openintabs_nodelay);
     jQuery("#reversetabs").prop("checked", !obj.openintabs_unreverse);
@@ -100,7 +107,7 @@ function removeHighlight(e: JQuery.ClickEvent<HTMLInputElement>) {
 }
 
 jQuery(document).on("ready", () => {
-    (async function() {
+    (async function () {
         await loadOptions();
         bindOptions();
     })().catch((err) => {
