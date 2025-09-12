@@ -15,7 +15,7 @@ FurAffinity Extender adds features to enhance your browsing experience of FurAff
 * Webpack
 
 ### Building
-* Install node and npm
+* Install node 22
 * Run `npm install`
 * Run `npm run build`
 

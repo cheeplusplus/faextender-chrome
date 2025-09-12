@@ -1,5 +1,3 @@
-/* eslint-disable new-cap */
-
 const StrictlySettings = <
     T extends { [k: string]: R },
     R extends keyof SettingsKeyTypes,
