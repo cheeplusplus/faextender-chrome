@@ -35,7 +35,7 @@ class StoryInGDocs extends StandardLoader {
         const dLinkContainer = injectionPoint.parent();
 
         // Append new link
-        jQuery("<span> | <b><a id=\"__ext_fa_gdoclink\" href=\"https://docs.google.com/viewer?url=" + encodeURI(downloadUrl) + "\">View in GDocs</a></b></span>").insertAfter(dLinkContainer);
+        jQuery("<span> | <b><a id=\"__ext_fa_gdoclink\" target=\"_blank\" href=\"https://docs.google.com/viewer?url=" + encodeURI(downloadUrl) + "\">View in GDocs</a></b></span>").insertAfter(dLinkContainer);
     }
 
     injectBeta(injectionPoint: JQuery<HTMLElement>, downloadUrl: string) {
@@ -48,6 +48,7 @@ class StoryInGDocs extends StandardLoader {
         jQuery("<a>")
             .attr("id", "__ext_fa_gdoclink")
             .attr("href", "https://docs.google.com/viewer?url=" + encodeURI(downloadUrl))
+            .attr("target", "_blank")
             .text("View in GDocs")
             .appendTo(button);
     }
