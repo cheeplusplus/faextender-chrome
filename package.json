@@ -41,6 +41,7 @@
   "dependencies": {
     "jquery": "^3.4.1",
     "jquery.hotkeys": "^0.1.0",
+    "sanitize-filename": "^1.6.3",
     "webextension-polyfill": "^0.12.0"
   }
 }

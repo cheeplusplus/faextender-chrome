@@ -8,6 +8,7 @@ import {
     MessageTypeDownloaderSaveResponse
 } from "./common";
 import { getInjectionElement } from "./_injection_list";
+import sanitize from "sanitize-filename";
 
 interface Components {
     "url": string;
@@ -33,7 +34,7 @@ class Downloader extends StorageLoader {
         }
 
         // Pretty artist name support
-        const artist = components.artist;
+        const artist = sanitize(components.artist);
         /* if (options.download_prettyartist) {
             artist = components.pretty_artist;
         }*/
