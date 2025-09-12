@@ -1,11 +1,11 @@
-const path = require("path");
-const webpack = require("webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MergeJsonWebpackPlugin = require("merge-jsons-webpack-plugin");
-const ZipWebpackPlugin = require("zip-webpack-plugin");
+import path from "path";
+import webpack from "webpack";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import { CleanWebpackPlugin} from "clean-webpack-plugin";
+import MergeJsonWebpackPlugin from "merge-jsons-webpack-plugin";
+import ZipWebpackPlugin from "zip-webpack-plugin";
 
-module.exports = (env) => {
+const config = (env) => {
     env = env || {};
     const PACKAGE_TARGET = env.PACKAGE_TARGET || "chrome";
 
@@ -31,7 +31,7 @@ module.exports = (env) => {
         },
         "output": {
             "filename": "[name].bundle.js",
-            "path": path.resolve(__dirname, "build", `packed-${PACKAGE_TARGET}`)
+            "path": path.resolve("build", `packed-${PACKAGE_TARGET}`)
         },
         "devtool": "inline-source-map",
         "plugins": [
@@ -54,7 +54,7 @@ module.exports = (env) => {
                 }
             }),
             new ZipWebpackPlugin({
-                "path": path.resolve(__dirname, "build"),
+                "path": path.resolve("build"),
                 "filename": `faextender_${PACKAGE_TARGET}.zip`,
                 "exclude": [/\.map$/]
             })
@@ -80,3 +80,5 @@ module.exports = (env) => {
 
     return config;
 };
+
+export default config;
