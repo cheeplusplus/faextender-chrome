@@ -5,7 +5,7 @@ import { Logger } from "./logger";
 import { StorageLoader } from "./loaderclasses";
 import { SettingsKeys } from "./common";
 import { getSiteVersion } from "./common_fa";
-import { getInjectionElement, getInjectionPoint } from "./_injection_list";
+import { getInjectionElement, InjectionPoint } from "./_injection_list";
 
 
 class OpenInTabs extends StorageLoader {
@@ -42,7 +42,8 @@ class OpenInTabs extends StorageLoader {
             return;
         }
 
-        openLink.on("click", () => {
+        // re-query because multiple links may have been created >:C
+        jQuery("#__ext_fa_opentabs").on("click", () => {
             // Find the links, use a delay if configured
             const queueTimeDelay = this.options[SettingsKeys.openintabs.delay_time] || 2;
             let useQueueTimer = !this.options[SettingsKeys.openintabs.no_delay];
@@ -67,37 +68,22 @@ class OpenInTabs extends StorageLoader {
 
     injectClassic() {
         // Create Open in Tabs link
+        const openDiv = jQuery("<div>").attr("style", "text-align: center; margin-top: 1em;");
         const openLink = jQuery<HTMLAnchorElement>("<a>")
             .attr("id", "__ext_fa_opentabs")
             .attr("href", "javascript:void(0);")
-            .text("Open images in tabs");
+            .text("Open images in tabs")
+            .appendTo(openDiv);
 
-        // Try submissions first
-        let tabsOpenInsertPos = getInjectionElement("insertInTabsInsertPositionSubmissions");
-        if (tabsOpenInsertPos.length > 0) {
-            tabsOpenInsertPos.first().after(openLink);
-        } else {
-            // Try other pages
-            const testPaths = [
-                getInjectionPoint("insertInTabsInsertPositionGallery"), // Gallery/scraps
-                getInjectionPoint("insertInTabsInsertPositionFavorites") // Favorites
-            ];
-
-            // Iterate through each test path until we find a valid one
-            for (let i = 0; i < testPaths.length; i++) {
-                tabsOpenInsertPos = jQuery(testPaths[i]);
-                if (tabsOpenInsertPos.length > 0) break;
-            }
-
+        // Try pages in order
+        const tabsOpenInsertPos = this.getTestPath();
+        if (tabsOpenInsertPos.length === 0) {
             // Abort if not found
-            if (tabsOpenInsertPos.length === 0) {
-                Logger.error("Bad tabs open selector, aborting");
-                return;
-            }
-
-            tabsOpenInsertPos.append("<br /><br />").append(openLink);
+            Logger.error("Bad tabs open selector, aborting");
+            return;
         }
 
+        tabsOpenInsertPos.append(openDiv);
         return openLink;
     }
 
@@ -107,31 +93,30 @@ class OpenInTabs extends StorageLoader {
         const openLink = jQuery<HTMLAnchorElement>("<a>")
             .attr("id", "__ext_fa_opentabs")
             .attr("href", "javascript:void(0);")
+            .addClass("button")
+            .addClass("standard")
             .text("Open images in tabs")
             .appendTo(openDiv);
 
         // Try pages in order
-        let tabsOpenInsertPos: JQuery<HTMLDivElement>;
-        const testPaths = [
-            getInjectionPoint("insertInTabsInsertPositionSubmissions"), // Submissions
-            getInjectionPoint("insertInTabsInsertPositionGallery"), // Gallery/scraps
-            getInjectionPoint("insertInTabsInsertPositionFavorites") // Favorites
-        ];
-
-        // Iterate through each test path until we find a valid one
-        for (let i = 0; i < testPaths.length; i++) {
-            tabsOpenInsertPos = jQuery(testPaths[i]);
-            if (tabsOpenInsertPos.length > 0) break;
-        }
-
-        // Abort if not found
+        const tabsOpenInsertPos = this.getTestPath();
         if (tabsOpenInsertPos.length === 0) {
+            // Abort if not found
             Logger.error("Bad tabs open selector, aborting");
             return;
         }
 
-        openDiv.insertAfter(tabsOpenInsertPos);
+        tabsOpenInsertPos.append(openDiv);
         return openLink;
+    }
+
+    private getTestPath(): JQuery<HTMLElement> | null {
+        const testPaths: InjectionPoint[] = [
+            "insertInTabsInsertPositionSubmissions", // Submissions
+            "insertInTabsInsertPositionGallery", // Gallery/scraps
+            "insertInTabsInsertPositionFavorites" // Favorites
+        ];
+        return testPaths.map((p) => getInjectionElement(p)).find((p) => p.length > 0) || null;
     }
 }
 
