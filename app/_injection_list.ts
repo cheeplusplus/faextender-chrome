@@ -42,17 +42,17 @@ const InjectionPointList: InjectionVersions = {
         "openInGDocsInsertPosition": "#page-submission div.actions a:contains('Download')"
     },
     "beta": {
-        "downloadInsertPosition": "#submission_page div.submission-sidebar",
-        "downloadLink": "#submission_page section.buttons div.download a:contains('Download')",
-        "artistLink": "#submission_page div.submission-content div.submission-id-sub-container a[href*='/user/']",
+        "downloadInsertPosition": "#submission_page div.submission-page-stats",
+        "downloadLink": "#submission_page a.button.standard.mobile-fix:contains('Download')",
+        "artistLink": "#submission_page a[href*='/user/']:has(img.submission-user-icon)",
         "addFavoriteLink": "a[href^='/fav/']:contains('+ Fav')",
         "miniGallery": "#submission_page section.minigallery-more div.preview-gallery",
         "journalHighlightMatch": "#messages-journals ul.message-stream li",
         "submissionHighlightMatch": "#messagecenter-submissions section.gallery figure",
         "standardSubmissionLink": ".gallery-section figure a[href*='/view/']",
-        "insertInTabsInsertPositionSubmissions": "#messagecenter-new-submissions .actions-section div.aligncenter",
-        "insertInTabsInsertPositionGallery": "#page-galleryscraps div.submission-list div.aligncenter",
-        "insertInTabsInsertPositionFavorites": "#standardpage div.aligncenter",
+        "insertInTabsInsertPositionSubmissions": "#messagecenter-new-submissions .actions-section div.aligncenter:first-child",
+        "insertInTabsInsertPositionGallery": "#page-galleryscraps div.submission-list div.aligncenter:first-child",
+        "insertInTabsInsertPositionFavorites": "#standardpage div.aligncenter:first-child",
         "openInGDocsInsertPosition": "#submission_page section.buttons"
     }
 };

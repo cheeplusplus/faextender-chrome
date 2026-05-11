@@ -15,7 +15,8 @@ class OpenInTabs extends StorageLoader {
 
     init() {
         // Collect all view page links
-        const tabLinks = jQuery.makeArray(getInjectionElement("standardSubmissionLink"));
+        const allLinks = jQuery.makeArray(getInjectionElement("standardSubmissionLink"));
+        const tabLinks = [...new Set(allLinks.map(a => a.href))];
 
         // Exit if no valid links were found so we don't inject
         if (tabLinks.length === 0) return;
@@ -25,9 +26,8 @@ class OpenInTabs extends StorageLoader {
             tabLinks.reverse();
         }
 
-        // Check to make sure if the injection point already exists
-        const openLinkCheck = jQuery("#__ext_fa_opentabs");
-        if (openLinkCheck.length > 0) return;
+        // Remove any existing open tabs link to prevent duplicates
+        jQuery("#__ext_fa_opentabs").remove();
 
         // Find our tabs open injection point
         let openLink: JQuery<HTMLAnchorElement>;
@@ -57,10 +57,10 @@ class OpenInTabs extends StorageLoader {
 
             tabLinks.forEach((thisLink) => {
                 if (useQueueTimer) {
-                    window.open(browser.runtime.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink.href) + "&delay=" + queueTime);
+                    window.open(browser.runtime.getURL("tabdelay.html") + "?url=" + encodeURI(thisLink) + "&delay=" + queueTime);
                     queueTime += queueTimeDelay;
                 } else {
-                    window.open(thisLink.href);
+                    window.open(thisLink);
                 }
             });
         });
@@ -68,7 +68,7 @@ class OpenInTabs extends StorageLoader {
 
     injectClassic() {
         // Create Open in Tabs link
-        const openDiv = jQuery("<div>").attr("style", "text-align: center; margin-top: 1em;");
+        const openDiv = jQuery("<div>").attr("style", "text-align: center; margin-top: 2em;");
         const openLink = jQuery<HTMLAnchorElement>("<a>")
             .attr("id", "__ext_fa_opentabs")
             .attr("href", "javascript:void(0);")
@@ -89,7 +89,7 @@ class OpenInTabs extends StorageLoader {
 
     injectBeta() {
         // Create Open in Tabs link
-        const openDiv = jQuery("<div>").addClass("aligncenter");
+        const openDiv = jQuery("<div>").addClass("aligncenter").css("margin-top", "2em");
         const openLink = jQuery<HTMLAnchorElement>("<a>")
             .attr("id", "__ext_fa_opentabs")
             .attr("href", "javascript:void(0);")

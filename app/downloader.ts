@@ -83,9 +83,9 @@ class Downloader extends StorageLoader {
         }
 
         // Inject text
-        downloadLink = jQuery("<a>").attr("href", "javascript:void(0);").attr("id", "__ext_fa_imgdl").text("Download now");
-        downloadSpan = jQuery("<span>").attr("id", "__ext_fa_imgdlsp").append(downloadLink);
-        downloadInsertPos.prepend(jQuery("<span>").append("[").append(downloadSpan).append("]"));
+        downloadLink = jQuery("<a>").attr("href", "javascript:void(0);").attr("id", "__ext_fa_imgdl").addClass("button standard mobile-fix").text("Download");
+        downloadSpan = jQuery("<span>").attr("id", "__ext_fa_imgdlsp").css({"display": "block", "margin-bottom": "1em"}).append(downloadLink);
+        downloadInsertPos.before(downloadSpan);
 
         const chgMsg = (text: string, alt?: string) => {
             downloadSpan.html(text);
@@ -117,9 +117,14 @@ class Downloader extends StorageLoader {
         }
     }
 
-    private getDownloadLink() {
-        const downloadLink = getInjectionElement("downloadLink");
+    private getDownloadLink(): JQuery<HTMLAnchorElement> | null {
+        const downloadLink = getInjectionElement("downloadLink") as JQuery<HTMLAnchorElement>;
         if (downloadLink.length === 0) {
+            const fallbackLink = jQuery("#submission_page a.button.standard.mobile-fix:contains('Download')") as JQuery<HTMLAnchorElement>;
+            if (fallbackLink.length > 0) {
+                return fallbackLink;
+            }
+
             // No download at all
             Logger.error("Could not find download link");
             return null;
@@ -128,9 +133,14 @@ class Downloader extends StorageLoader {
         return downloadLink;
     }
 
-    private getArtistLink() {
-        const artistLink = getInjectionElement("artistLink");
+    private getArtistLink(): JQuery<HTMLAnchorElement> | null {
+        const artistLink = getInjectionElement("artistLink") as JQuery<HTMLAnchorElement>;
         if (artistLink.length === 0) {
+            const fallbackArtistLink = jQuery("#submission_page a[href*='/user/']").has("img.submission-user-icon");
+            if (fallbackArtistLink.length > 0) {
+                return fallbackArtistLink as JQuery<HTMLAnchorElement>;
+            }
+
             // Can't find artist link
             Logger.error("Could not find artist selector");
             return null;
