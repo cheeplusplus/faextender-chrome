@@ -112,9 +112,9 @@ class OpenInTabs extends StorageLoader {
 
     private getTestPath(): JQuery<HTMLElement> | null {
         const testPaths: InjectionPoint[] = [
-            "insertInTabsInsertPositionSubmissions", // Submissions
-            "insertInTabsInsertPositionGallery", // Gallery/scraps
-            "insertInTabsInsertPositionFavorites" // Favorites
+            "openInTabsInsertPositionSubmissions", // Submissions
+            "openInTabsInsertPositionGallery", // Gallery/scraps
+            "openInTabsInsertPositionFavorites" // Favorites
         ];
         return testPaths.map((p) => getInjectionElement(p)).find((p) => p.length > 0) || null;
     }
