@@ -2,8 +2,8 @@
 
 let countdownURL = "";
 let countdownTimer = 0;
-let urlLabel: JQuery<HTMLAnchorElement> = null;
-let delayLabel: JQuery<HTMLSpanElement> = null;
+let urlLabel: JQuery<HTMLAnchorElement> | undefined;
+let delayLabel: JQuery<HTMLSpanElement> | undefined;
 
 function tabDelayOnLoad() {
     // URL parameters:
@@ -11,8 +11,8 @@ function tabDelayOnLoad() {
     //  delay - Time to count down
 
     const urlParams = new URLSearchParams(window.location.search);
-    countdownURL = urlParams.get("url");
-    countdownTimer = parseInt(urlParams.get("delay"), 10);
+    countdownURL = urlParams.get("url")!;
+    countdownTimer = parseInt(urlParams.get("delay")!, 10);
     urlLabel = jQuery("#redirURL");
     delayLabel = jQuery("#redirTime");
 
@@ -33,7 +33,7 @@ function tabDelayOnLoad() {
 function tabDelayCountdown() {
     if (countdownTimer > 0) {
         document.title = "FurAffinity Redirecting in " + countdownTimer;
-        delayLabel.text(`in ${countdownTimer} second${countdownTimer === 1 ? "" : "s"}.`);
+        delayLabel?.text(`in ${countdownTimer} second${countdownTimer === 1 ? "" : "s"}.`);
 
         countdownTimer -= 1;
         setTimeout(tabDelayCountdown, 1000);

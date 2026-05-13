@@ -14,11 +14,11 @@ class Hotkeys extends StorageLoader {
     }
 
     init() {
-        if (!this.options[SettingsKeys.hotkeys.enabled]) return;
+        if (!this.options?.[SettingsKeys.hotkeys.enabled]) return;
 
         // Collect prev/next links
-        let prevLink: JQuery<HTMLAnchorElement>;
-        let nextLink: JQuery<HTMLAnchorElement>;
+        let prevLink: JQuery<HTMLAnchorElement> | undefined;
+        let nextLink: JQuery<HTMLAnchorElement> | undefined;
 
         if (getSiteVersion() === "beta") {
             // New layout is missing focal point, so figure it out by submission ID

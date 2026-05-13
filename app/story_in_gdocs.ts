@@ -58,6 +58,9 @@ class StoryInGDocs extends StandardLoader {
 
         // Get and fix URL
         let url = downloadLink.attr("href");
+        if (!url) {
+            return undefined;
+        }
 
         // Fix protocol-less URLs
         if (url.substr(0, 2) === "//") {

@@ -19,7 +19,7 @@ class Highlighter extends StorageLoader {
 
     init() {
         // Exit if no keys are set
-        let keys = this.options[SettingsKeys.highlighter.keys];
+        let keys = this.options?.[SettingsKeys.highlighter.keys];
         if (!keys) return;
         keys = keys.filter((f) => f.type === this.args.name);
         if (!keys) return;

@@ -3,12 +3,13 @@
         "module": "ES6",
         "target": "ES6",
         "noImplicitAny": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowJs": true,
         "sourceMap": true,
         "outDir": "build",
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "rootDir": "app"
     },
     "include": [
         "app/**/*"

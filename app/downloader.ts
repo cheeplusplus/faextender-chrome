@@ -46,7 +46,8 @@ class Downloader extends StorageLoader {
         const filename = `${dir}${fname}`;
 
         const msg: MessageTypeDownloaderSave = { "action": MessageActions.downloader.save, "options": { url, filename } };
-        browser.runtime.sendMessage(msg).then((response: MessageTypeDownloaderSaveResponse) => {
+        browser.runtime.sendMessage(msg).then((res: unknown) => {
+            const response = res as MessageTypeDownloaderSaveResponse;
             downloadSpan.text(response.message);
 
             if (response.err) {
@@ -89,7 +90,9 @@ class Downloader extends StorageLoader {
 
         const chgMsg = (text: string, alt?: string) => {
             downloadSpan.html(text);
-            downloadSpan.attr("title", alt);
+            if (alt) {
+                downloadSpan.attr("title", alt);
+            }
         };
 
         if (!components.extension) {
@@ -100,7 +103,9 @@ class Downloader extends StorageLoader {
         const configureDownload = () => {
             // Handle link onclick event
             downloadLink.on("click", () => {
-                Downloader.save(this.options, components, downloadSpan);
+                if (this.options) {
+                    Downloader.save(this.options, components, downloadSpan);
+                }
             });
         };
 
@@ -140,7 +145,7 @@ class Downloader extends StorageLoader {
     }
 
     // Handle retrieving download URL
-    private getDownloadUrlComponents(): Components {
+    private getDownloadUrlComponents(): Components | null {
         const downloadLink = this.getDownloadLink();
         if (!downloadLink || downloadLink.length === 0) {
             return null;
@@ -161,6 +166,10 @@ class Downloader extends StorageLoader {
         }
 
         const artistPath = artistLink.attr("href");
+        if (!artistPath) {
+            return null;
+        }
+
         const artist = artistPath.replace("/user/", "").replace("/", "");
         const prettyArtist = artistLink.text();
 

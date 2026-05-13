@@ -38,7 +38,7 @@ function bindOptions() {
     jQuery("#delaytabs").on("change", (e) => setKey(SettingsKeys.openintabs.no_delay, !jQuery(e.target).prop("checked")));
     jQuery("#reversetabs").on("change", (e) => setKey(SettingsKeys.openintabs.unreverse, !jQuery(e.target).prop("checked")));
     jQuery("#hotkeys").on("change", (e) => setKey(SettingsKeys.hotkeys.enabled, jQuery(e.target).prop("checked")));
-    jQuery("#savefolder").on("change", (e) => setKey(SettingsKeys.downloader.subfolder, jQuery(e.target).val().toString()));
+    jQuery("#savefolder").on("change", (e) => setKey(SettingsKeys.downloader.subfolder, jQuery(e.target).val()!.toString()));
     jQuery("#saveartistsubfolder").on("change", (e) => setKey(SettingsKeys.downloader.artist_subdirs, jQuery(e.target).prop("checked")));
     jQuery("#highlight_add").on("click", addNewHighlight);
     jQuery("#reset").on("click", () => {
@@ -70,6 +70,7 @@ function loadHighlight(keys: HighlighterKey[]) {
         jQuery("<td>").text(item.text).appendTo(row);
         jQuery("<td>").text(item.color).css("background-color", item.color).appendTo(row);
         const removeCol = jQuery("<td>").appendTo(row);
+        // @ts-ignore -- idk what it's complaining about
         jQuery("<input>").attr("type", "button").on("click", removeHighlight).appendTo(removeCol).val("-");
 
         tableBody.append(row);
@@ -89,8 +90,8 @@ function addNewHighlight() {
     const tableFooter = jQuery("table#highlight_table tfoot");
     const type = jQuery("select#highlight_type option:selected", tableFooter).val() as HighlightTypes;
     const field = jQuery("select#highlight_field option:selected", tableFooter).val() as HightlightFields;
-    const text = jQuery("input#highlight_text", tableFooter).val().toString();
-    const color = jQuery("input#highlight_color", tableFooter).val().toString();
+    const text = jQuery("input#highlight_text", tableFooter).val()!.toString();
+    const color = jQuery("input#highlight_color", tableFooter).val()!.toString();
 
     highlightState.push({ type, field, text, color });
     return saveHighlight();

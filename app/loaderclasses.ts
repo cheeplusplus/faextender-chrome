@@ -16,7 +16,7 @@ export abstract class StandardLoader {
 /** Storage injector */
 export abstract class StorageLoader extends StandardLoader {
     protected storageVars: SettingKeyKeys[];
-    protected options: SettingsKeyTypes;
+    protected options: SettingsKeyTypes | undefined;
 
     constructor(...storageVars: SettingKeyKeys[]) {
         super();

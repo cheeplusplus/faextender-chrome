@@ -21,7 +21,7 @@ class OpenInTabs extends StorageLoader {
         if (tabLinks.length === 0) return;
 
         // Flip the page link order (oldest to newest by default)
-        if (!this.options[SettingsKeys.openintabs.unreverse]) {
+        if (!this.options?.[SettingsKeys.openintabs.unreverse]) {
             tabLinks.reverse();
         }
 
@@ -30,7 +30,7 @@ class OpenInTabs extends StorageLoader {
         if (openLinkCheck.length > 0) return;
 
         // Find our tabs open injection point
-        let openLink: JQuery<HTMLAnchorElement>;
+        let openLink: JQuery<HTMLAnchorElement> | undefined;
         if (getSiteVersion() === "beta") {
             openLink = this.injectBeta();
         } else {
@@ -45,8 +45,8 @@ class OpenInTabs extends StorageLoader {
         // re-query because multiple links may have been created >:C
         jQuery("#__ext_fa_opentabs").on("click", () => {
             // Find the links, use a delay if configured
-            const queueTimeDelay = this.options[SettingsKeys.openintabs.delay_time] || 2;
-            let useQueueTimer = !this.options[SettingsKeys.openintabs.no_delay];
+            const queueTimeDelay = this.options?.[SettingsKeys.openintabs.delay_time] || 2;
+            let useQueueTimer = !this.options?.[SettingsKeys.openintabs.no_delay];
 
             // Start with the delay
             let queueTime = queueTimeDelay;
@@ -77,7 +77,7 @@ class OpenInTabs extends StorageLoader {
 
         // Try pages in order
         const tabsOpenInsertPos = this.getTestPath();
-        if (tabsOpenInsertPos.length === 0) {
+        if (!tabsOpenInsertPos || tabsOpenInsertPos.length === 0) {
             // Abort if not found
             Logger.error("Bad tabs open selector, aborting");
             return;
@@ -100,7 +100,7 @@ class OpenInTabs extends StorageLoader {
 
         // Try pages in order
         const tabsOpenInsertPos = this.getTestPath();
-        if (tabsOpenInsertPos.length === 0) {
+        if (!tabsOpenInsertPos || tabsOpenInsertPos.length === 0) {
             // Abort if not found
             Logger.error("Bad tabs open selector, aborting");
             return;

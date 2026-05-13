@@ -9,7 +9,8 @@ import {
     MessageTypeDownloaderSaveResponse
 } from "./common";
 
-browser.runtime.onMessage.addListener(async (request: MessageType) => {
+browser.runtime.onMessage.addListener(async (req: unknown) => {
+    const request = req as MessageType;
     if (request.action === MessageActions.downloader.save) {
         let conflictAction: import("webextension-polyfill").Downloads.FilenameConflictAction = "prompt";
         const manifest = browser.runtime.getManifest();
@@ -28,7 +29,7 @@ browser.runtime.onMessage.addListener(async (request: MessageType) => {
             return { "message": "Download complete" };
         } catch (err) {
             Logger.error("Got download error", err);
-            return { "message": "Error downloading", "err": err.message } satisfies MessageTypeDownloaderSaveResponse;
+            return { "message": "Error downloading", "err": err instanceof Error ? err.message : String(err) } satisfies MessageTypeDownloaderSaveResponse;
         }
     } else if (request.action === MessageActions.downloader.exists) {
         try {
