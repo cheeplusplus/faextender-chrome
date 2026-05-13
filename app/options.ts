@@ -70,7 +70,7 @@ function loadHighlight(keys: HighlighterKey[]) {
         jQuery("<td>").text(item.text).appendTo(row);
         jQuery("<td>").text(item.color).css("background-color", item.color).appendTo(row);
         const removeCol = jQuery("<td>").appendTo(row);
-        // @ts-ignore -- idk what it's complaining about
+        // @ts-expect-error -- idk what it's complaining about
         jQuery("<input>").attr("type", "button").on("click", removeHighlight).appendTo(removeCol).val("-");
 
         tableBody.append(row);

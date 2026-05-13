@@ -3,6 +3,7 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 import globals from "globals";
 
 export default [{
+    "files": ["**/*.ts", "**/*.js"],
     "languageOptions": {
         "parser": tsParser,
         "parserOptions": {
@@ -14,7 +15,7 @@ export default [{
         },
         "globals": {
             ...globals.browser,
-            ...global.jQuery,
+            ...globals.jquery,
         }
     },
     "plugins": { "@typescript-eslint": tsPlugin },
