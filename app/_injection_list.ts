@@ -42,11 +42,11 @@ const InjectionPointList: InjectionVersions = {
         "openInGDocsInsertPosition": "#page-submission div.actions a:contains('Download')"
     },
     "beta": {
-        "downloadInsertPosition": "#submission_page div.submission-sidebar",
-        "downloadLink": "#submission_page section.buttons div.download a:contains('Download')",
-        "artistLink": "#submission_page div.submission-content div.submission-id-sub-container a[href*='/user/']",
-        "addFavoriteLink": "a[href^='/fav/']:contains('+ Fav')",
-        "miniGallery": "#submission_page section.minigallery-more div.preview-gallery",
+        "downloadInsertPosition": "#submission_page #submission-main-content > div:nth-child(2)",
+        "downloadLink": "#submission_page div.submission-controls-upper a:contains('Download')",
+        "artistLink": "#submission_page div.submission-description-artist a[href*='/user/']",
+        "addFavoriteLink": "#submission_page div.submission-options a[href^='/fav/']",
+        "miniGallery": "#submission_page #minigallery",
         "journalHighlightMatch": "#messages-journals ul.message-stream li",
         "submissionHighlightMatch": "#messagecenter-submissions section.gallery figure",
         "standardSubmissionLink": ".gallery-section figure a[href*='/view/']",
