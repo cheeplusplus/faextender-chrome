@@ -1,6 +1,7 @@
 // FAExtender settings
 
 import browser from "webextension-polyfill";
+import jQuery from "jquery";
 import {
     FetchedSettingsKeyTypes,
     HighlighterKey,

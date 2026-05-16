@@ -1,7 +1,7 @@
 {
     "version": "3.2.6",
 	"background": {
-		"scripts": ["background.bundle.js"]
+		"scripts": ["<ROOT>/app/background.ts"]
 	},
     "browser_specific_settings": {
 		"gecko": {

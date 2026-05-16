@@ -1,4 +1,5 @@
 /* Open in tabs delay */
+import jQuery from "jquery";
 
 let countdownURL = "";
 let countdownTimer = 0;
