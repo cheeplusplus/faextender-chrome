@@ -52,7 +52,7 @@ const InjectionPointList: InjectionVersions = {
         "standardSubmissionLink": ".gallery-section figure a[href*='/view/']",
         "openInTabsInsertPositionSubmissions": "#messagecenter-new-submissions .actions-section div.aligncenter",
         "openInTabsInsertPositionGallery": "#page-galleryscraps div.submission-list div.aligncenter",
-        "openInTabsInsertPositionFavorites": "#standardpage div.aligncenter",
+        "openInTabsInsertPositionFavorites": "#standardpage div.aligncenter:first-child",
         "openInGDocsInsertPosition": "#submission_page section.buttons"
     }
 };
