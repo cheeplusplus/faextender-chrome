@@ -1,7 +1,6 @@
 name: build.yml
 on:
   push:
-  pull_request:
 
 jobs:
   build:
@@ -17,7 +16,7 @@ jobs:
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
       - name: NPM cache
         id: npm-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -30,7 +29,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extensions
           path: build/*.zip
