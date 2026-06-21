@@ -53,6 +53,7 @@ async function buildBundle(manifestPath, distDir) {
             entries: manifestPath,
             defaultConfig: "@parcel/config-webextension",
             mode: "production",
+            shouldDisableCache: true,
             defaultTargetOptions: {
                 distDir,
                 shouldOptimize: true,
