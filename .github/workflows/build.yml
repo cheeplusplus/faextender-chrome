@@ -1,6 +1,7 @@
 name: build.yml
 on:
   push:
+  pull_request:
 
 jobs:
   build:
