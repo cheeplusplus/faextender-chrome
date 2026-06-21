@@ -2,7 +2,7 @@
     "version": "1.2.6",
     "minimum_chrome_version": "88",
     "background": {
-		"service_worker": "background.bundle.js",
+		"service_worker": "<ROOT>/app/background.ts",
 		"type": "module"
 	}
 }

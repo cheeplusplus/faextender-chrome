@@ -5,3 +5,5 @@ bower_components/**
 build/**
 gulp.lnk
 .idea/
+.parcel-cache/**
+dist/
