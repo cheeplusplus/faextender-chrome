@@ -48,15 +48,17 @@ async function zipDirectory(sourceDir, outPath) {
 }
 
 async function buildBundle(manifestPath, distDir) {
+    const isDev = process.env.NODE_ENV === "development";
+
     try {
         const bundler = new Parcel({
             entries: manifestPath,
             defaultConfig: "@parcel/config-webextension",
-            mode: "production",
+            mode: isDev ? "development" : "production",
             shouldDisableCache: true,
             defaultTargetOptions: {
                 distDir,
-                shouldOptimize: true,
+                shouldOptimize: !isDev,
                 shouldScopeHoist: true,
                 sourceMaps: false,
                 publicUrl: "/",
@@ -73,6 +75,26 @@ async function buildBundle(manifestPath, distDir) {
         echo(`${chalk.red("Error building:")} ${err.message}`);
         throw new Error("Build failed");
     }
+}
+
+async function webAccessibleResourcesFix(outputDir) {
+    // Something is weird in Parcel that's causing it to be in a subdir, but its internal paths are still relative like it's in the root
+    // So just move it to the root and patch the manifest
+    const manifestPath = path.join(outputDir, "manifest.json");
+    const manifest = JSON.parse(await fs.readFile(manifestPath, "utf-8"));
+    const actions = [];
+    manifest.web_accessible_resources = manifest.web_accessible_resources.map(r => {
+        if (r.resources) {
+            r.resources = r.resources.map(r => {
+                const newName = path.basename(r);
+                actions.push(fs.move(path.join(outputDir, r), path.join(outputDir, newName)));
+                return newName;
+            });
+        }
+        return r;
+    })
+    await Promise.all(actions);
+    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 }
 
 async function main(platform = "chrome") {
@@ -97,9 +119,8 @@ async function main(platform = "chrome") {
     // Build
     await buildBundle(outputManifestPath, outputDir);
 
-    // Fix this stupid bug
-    // Something is weird in Parcel that's causing it to be in a subdir, but its internal paths are still relative like it's in the root
-    await fs.move(path.join(outputDir, "up_", "up_", "src", "tabdelay.html"), path.join(outputDir, "tabdelay.html"));
+    // Patch Parcel web_accessible_resources weirdness
+    await webAccessibleResourcesFix(outputDir);
 
     // Zip
     const zipOutputFile = path.join(rootDir, "build", `faextender_${platform}.zip`);
