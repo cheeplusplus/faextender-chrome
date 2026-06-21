@@ -10,12 +10,16 @@ FurAffinity Extender adds features to enhance your browsing experience of FurAff
 * Open stories in Google Docs previewer
 
 ### Technology
-* WebExtensions
+* Web Extensions
 * Typescript
-* Webpack
+* Parcel
+
+### Supported Browsers
+* Chrome
+* Firefox
 
 ### Building
-* Install node 22
+* Install node 26
 * Run `npm install`
 * Run `npm run build`
 
