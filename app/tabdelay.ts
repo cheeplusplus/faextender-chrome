@@ -1,4 +1,7 @@
 /* Open in tabs delay */
+
+import "./jquery_global";
+
 import jQuery from "jquery";
 
 let countdownURL = "";

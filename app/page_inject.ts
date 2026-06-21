@@ -1,5 +1,7 @@
 // Load all the page injection scripts
 
+import "./jquery_global";
+
 import jQuery from "jquery";
 import { Base } from "./base";
 import hookDownloader from "./downloader";
