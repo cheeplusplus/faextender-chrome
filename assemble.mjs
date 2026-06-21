@@ -60,8 +60,16 @@ async function buildBundle(manifestPath, distDir) {
                 distDir,
                 shouldOptimize: !isDev,
                 shouldScopeHoist: true,
-                sourceMaps: false,
+                sourceMaps: true,
                 publicUrl: "/",
+            },
+            targets: {
+                default: {
+                    distDir,
+                    sourceMap: {
+                        inline: false
+                    }
+                }
             }
         });
 
@@ -75,6 +83,23 @@ async function buildBundle(manifestPath, distDir) {
         echo(`${chalk.red("Error building:")} ${err.message}`);
         throw new Error("Build failed");
     }
+}
+
+async function backgroundScriptFix(platform, outputDir) {
+    // Parcel doesn't support seem to add the vendor file to the background script list, and Firefox doesn't use real service workers for bg scripts
+    if (platform !== "firefox") {
+        return;
+    }
+
+    const manifestPath = path.join(outputDir, "manifest.json");
+    const manifest = JSON.parse(await fs.readFile(manifestPath, "utf-8"));
+
+    // TODO: Get this a better way
+    const sharedFile = manifest.content_scripts[0].js[0];
+    manifest.background.scripts.unshift(sharedFile);
+    manifest.background.type = "module";
+
+    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 }
 
 async function webAccessibleResourcesFix(outputDir) {
@@ -119,7 +144,8 @@ async function main(platform = "chrome") {
     // Build
     await buildBundle(outputManifestPath, outputDir);
 
-    // Patch Parcel web_accessible_resources weirdness
+    // Patch Parcel weirdness
+    await backgroundScriptFix(platform, outputDir);
     await webAccessibleResourcesFix(outputDir);
 
     // Zip
